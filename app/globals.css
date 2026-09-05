@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Design system — « Entre mes mains »
+   Palette validée dans docs/architecture.md (§ direction artistique)
+   ============================================================ */
+
+@theme {
+  /* Fonds vert forêt */
+  --color-forest-deep: #2f3e30;
+  --color-forest: #364036;
+  --color-forest-light: #3e4437;
+
+  /* Lumière / fonds clairs */
+  --color-champagne: #fdf2e4;
+  --color-cream: #fdfbf7;
+
+  /* Accents */
+  --color-bronze: #a39171;      /* doré mat / bronze */
+  --color-sage: #7a8f7f;        /* vert sauge */
+  --color-sage-light: #8fa696;  /* eucalyptus */
+  --color-sand: #c2b298;        /* beige sable (bois/corde) */
+  --color-glow: #e8c4a0;        /* pêche clair / or doux */
+  --color-glow-light: #f4dcc6;
+
+  /* Typographies */
+  --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-sans: "Nunito Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-forest-deep);
+  background-image: linear-gradient(180deg, #2f3e30 0%, #364036 100%);
+  background-attachment: fixed;
+  color: var(--color-cream);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+}
+
+::selection {
+  background: rgba(163, 145, 113, 0.45);
+  color: #fdfbf7;
+}
+
+/* Halo doré décoratif (rétroéclairage) */
+.halo {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(232, 196, 160, 0.16) 0%,
+    rgba(232, 196, 160, 0.05) 42%,
+    transparent 72%
+  );
+}
+
+.halo-strong {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(244, 220, 198, 0.22) 0%,
+    rgba(232, 196, 160, 0.08) 46%,
+    transparent 74%
+  );
+}
+
+/* Carte verre fumé */
+.glass-card {
+  background: rgba(253, 242, 228, 0.05);
+  border: 1px solid rgba(163, 145, 113, 0.28);
+}
+
+/* Slider (aperçu km) */
+input[type="range"] {
+  accent-color: var(--color-bronze);
+}
