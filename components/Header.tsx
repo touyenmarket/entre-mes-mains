@@ -40,11 +40,6 @@ export default function Header() {
           {NAV_LINKS.map((l) => (
             <Link key={l.href} href={l.href} className={linkClass(l.href)}>
               {l.label}
-              {"soon" in l && l.soon && (
-                <span className="ml-1.5 rounded-full border border-bronze/40 px-1.5 py-0.5 align-middle text-[9px] uppercase tracking-wide text-glow/80">
-                  bientôt
-                </span>
-              )}
             </Link>
           ))}
           <Link

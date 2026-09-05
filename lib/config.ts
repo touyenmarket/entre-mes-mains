@@ -22,6 +22,7 @@ export const NAV_LINKS = [
   { href: "/naturopathie", label: "Naturopathie" },
   { href: "/massages", label: "Massages" },
   { href: "/atelier-lsf", label: "Atelier LSF" },
-  { href: "/mes-rendez-vous", label: "Mes rendez-vous", soon: true },
+  { href: "/mes-rendez-vous", label: "Mes rendez-vous" },
+  { href: "/connexion", label: "Connexion" },
   { href: "/contact", label: "Contact" },
 ] as const;
