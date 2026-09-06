@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getCurrentProfile } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { capturerCommandePaypal } from "@/lib/paiements/paypal";
+import { finaliserApresPaiement } from "@/lib/notifications/confirmation";
 
 export const metadata = { title: "Paiement" };
 
@@ -49,8 +50,7 @@ export default async function PaiementRetourPage({
         statut: "confirmee",
       })
       .eq("id", reservation.id);
-    const { emettreFactureSiBesoin } = await import("@/lib/factures/emettre");
-    await emettreFactureSiBesoin(reservation.id);
+    await finaliserApresPaiement(reservation.id);
   } catch {
     redirect(`/reserver/confirmation/${numero}?erreur=paiement`);
   }

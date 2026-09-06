@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { euros, formatDateHeure } from "@/lib/dates";
 import { isPaypalEnabled } from "@/lib/paiements/paypal";
 import { lancerPaiementPaypal } from "../../paiement/actions";
+import { assurerLienVisio } from "@/lib/visio";
 
 export const metadata = { title: "Réservation confirmée" };
 
@@ -23,17 +24,28 @@ export default async function ConfirmationPage({
   const supabase = await createClient();
   const { data } = await supabase
     .from("reservations")
-    .select("*, prestations(label), creneaux(debut_at, format)")
+    .select(
+      "*, prestations(label, visio_auto, format), creneaux(debut_at, format)"
+    )
     .eq("numero", numero)
     .eq("profile_id", user.id)
     .maybeSingle();
 
   if (!data) notFound();
 
-  const prestation = data.prestations as { label: string } | null;
+  const prestation = data.prestations as {
+    label: string;
+    visio_auto?: boolean;
+    format?: string;
+  } | null;
   const creneau = data.creneaux as { debut_at: string; format: string } | null;
   const paye = data.paiement_statut === "paye";
   const paypal = isPaypalEnabled();
+
+  let visio = data.visio_lien as string | null;
+  if (paye && (prestation?.visio_auto || prestation?.format === "visio")) {
+    visio = (await assurerLienVisio(data.id)) || visio;
+  }
 
   return (
     <Container className="py-16 text-center sm:py-24">
@@ -60,6 +72,15 @@ export default async function ConfirmationPage({
       {q.erreur === "paiement" && (
         <p className="mx-auto mt-6 max-w-md text-sm text-glow">
           Le paiement n’a pas abouti. Réessayez ou écrivez-nous.
+        </p>
+      )}
+
+      {paye && visio && (
+        <p className="mx-auto mt-6 max-w-md text-sm text-cream/70">
+          Lien visio :{" "}
+          <a href={visio} className="text-glow underline" target="_blank" rel="noreferrer">
+            Rejoindre la consultation
+          </a>
         </p>
       )}
 

@@ -48,7 +48,7 @@ export default async function MesRdvPage() {
 
   const { data: reservations } = await supabase
     .from("reservations")
-    .select("*, prestations(label), creneaux(debut_at, format)")
+    .select("*, visio_lien, prestations(label, visio_auto, format), creneaux(debut_at, format)")
     .eq("profile_id", user.id)
     .order("created_at", { ascending: false });
 
@@ -109,6 +109,18 @@ export default async function MesRdvPage() {
                     >
                       Payer cette réservation
                     </Link>
+                  </p>
+                )}
+                {r.paiement_statut === "paye" && r.visio_lien && (
+                  <p className="mt-2 text-sm">
+                    <a
+                      href={r.visio_lien}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-glow hover:underline"
+                    >
+                      Rejoindre la visio
+                    </a>
                   </p>
                 )}
                 {r.paiement_statut === "paye" && (
