@@ -5,15 +5,15 @@ import { getCurrentProfile } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { creerCommandePaypal, isPaypalEnabled } from "@/lib/paiements/paypal";
 
-export async function lancerPaiementPaypal(formData: FormData) {
+export async function lancerPaiementPaypal(formData: FormData): Promise<void> {
   const numero = String(formData.get("numero") || "");
-  if (!numero) return { error: "Réservation introuvable." };
+  if (!numero) redirect("/mes-rendez-vous");
 
   const { user } = await getCurrentProfile();
   if (!user) redirect("/connexion");
 
   if (!isPaypalEnabled()) {
-    return { error: "PayPal n’est pas encore configuré sur l’hébergement." };
+    redirect(`/reserver/confirmation/${numero}?erreur=paiement`);
   }
 
   const admin = createAdminClient();
@@ -24,7 +24,7 @@ export async function lancerPaiementPaypal(formData: FormData) {
     .eq("profile_id", user.id)
     .maybeSingle();
 
-  if (!reservation) return { error: "Réservation introuvable." };
+  if (!reservation) redirect("/mes-rendez-vous");
   if (reservation.paiement_statut === "paye") {
     redirect(`/reserver/confirmation/${numero}`);
   }
