@@ -29,10 +29,10 @@ export default function Header() {
           <Image
             src="/images/logo.png"
             alt="Entre mes mains"
-            width={110}
-            height={70}
+            width={160}
+            height={100}
             priority
-            className="h-[52px] w-auto"
+            className="h-[68px] w-auto drop-shadow-[0_2px_10px_rgba(232,213,163,0.45)]"
           />
         </Link>
 

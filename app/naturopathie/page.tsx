@@ -27,7 +27,7 @@ const approche = [
     icon: ListChecks,
     titre: "Un plan personnalisé",
     texte:
-      "À l'issue du rendez-vous, une synthèse ainsi qu'un plan d'accompagnement personnalisé sont élaborés et vous sont envoyés sous 7 jours.",
+      "Une synthèse ainsi qu'un plan d'accompagnement personnalisé sont élaborés et vous sont envoyés sous 7 jours.",
   },
   {
     icon: MessageCircleHeart,
@@ -48,9 +48,9 @@ const deroule = [
   {
     numero: "2",
     titre: "Des conseils personnalisés",
-    detail: "à l'issue du bilan",
+    detail: "sous 7 jours",
     texte:
-      "Vous repartez avec des pistes claires : alimentation, mouvement, sommeil, gestion du stress… Une synthèse et un plan d'accompagnement personnalisé vous sont envoyés sous 7 jours.",
+      "Une synthèse et un plan d'accompagnement personnalisé vous sont envoyés sous 7 jours.",
   },
   {
     numero: "3",

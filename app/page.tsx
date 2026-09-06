@@ -45,7 +45,7 @@ const etapes = [
   },
   {
     icon: HeartHandshake,
-    titre: "Vous êtes accompagné·e",
+    titre: "Vous êtes accompagnées",
     texte:
       "Confirmation immédiate, lien visio envoyé automatiquement et rappel la veille. Il ne reste qu'à profiter.",
   },
@@ -74,8 +74,8 @@ export default function Home() {
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-cream/70 sm:text-lg">
             Consultations de naturopathie en visio, massages bien-être à
-            domicile pour vous et pour bébé, et atelier de langue des signes
-            française. Une parenthèse de douceur, chez vous.
+            domicile pour vous et pour bébé, des ateliers de langue des
+            signes française. Une parenthèse de douceur, chez vous.
           </p>
           <div className="mt-9 flex flex-col gap-4 sm:flex-row">
             <ButtonLink href="/naturopathie">
@@ -88,7 +88,7 @@ export default function Home() {
           <div className="mt-11 flex flex-wrap items-center justify-center gap-x-7 gap-y-2 text-xs text-cream/55">
             <span className="flex items-center gap-1.5">
               <Video size={13} className="text-bronze" /> Lien visio envoyé
-              automatiquement
+              automatiquement après paiement
             </span>
             <span className="flex items-center gap-1.5">
               <CreditCard size={13} className="text-bronze" /> Paiement en ligne
@@ -134,7 +134,7 @@ export default function Home() {
                 </p>
                 <ul className="mt-4 space-y-1.5 text-sm text-cream/70">
                   <li>· Premier rendez-vous de 1h30, puis suivis d&apos;1h</li>
-                  <li>· Lien visio envoyé automatiquement</li>
+                  <li>· Lien visio envoyé automatiquement après paiement</li>
                   <li>· Rappel la veille, sans démarche de votre côté</li>
                 </ul>
                 <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-glow">
@@ -256,15 +256,15 @@ export default function Home() {
           <div className="grid items-center gap-10 lg:grid-cols-2">
             <div className="order-2 lg:order-1">
               <Image
-                src="/images/atelier.jpg"
-                alt="Mains signant dans une lumière dorée"
+                src="/images/mains-bebe.jpg"
+                alt="Main de femme et main de bébé"
                 width={800}
                 height={520}
                 className="w-full rounded-3xl border border-bronze/25 object-cover"
               />
             </div>
             <div className="order-1 lg:order-2">
-              <Badge>Accessible en LSF</Badge>
+              <Badge>Atelier bébé signes</Badge>
               <h2 className="mt-4 font-serif text-3xl font-medium leading-tight text-cream sm:text-4xl">
                 Parler avec bébé avant les mots
               </h2>
@@ -307,10 +307,11 @@ export default function Home() {
           />
           <LeafDivider className="mt-8" />
           <p className="mt-8 max-w-2xl text-[15px] leading-relaxed text-cream/65">
-            {SITE.name} réunit deux pratiques qui se répondent : la
-            naturopathie, pour comprendre et soutenir votre vitalité, et le
-            massage bien-être, pour relâcher, apaiser et accompagner les grands
-            moments de la vie — de la grossesse aux premiers mois de bébé.
+            {SITE.name} réunit trois univers qui se répondent : la
+            naturopathie, pour comprendre et soutenir votre vitalité ; le
+            massage bien-être, pour relâcher et accompagner les grands
+            moments de la vie ; et les ateliers de signes associés à la
+            parole, pour offrir à bébé ses premiers mots, avec les mains.
             <br />
             <br />
             Une approche douce, fondée sur l&apos;écoute, le respect du rythme
@@ -336,7 +337,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-forest-deep via-forest-deep/70 to-forest-deep" />
         <Container className="relative flex flex-col items-center text-center">
           <h2 className="max-w-2xl font-serif text-3xl font-medium leading-tight text-cream sm:text-5xl">
-            Prêt·e à vous accorder ce moment&nbsp;?
+            Prête à vous accorder ce moment&nbsp;?
           </h2>
           <p className="mt-5 max-w-lg text-[15px] text-cream/65">
             Réservez votre consultation ou votre massage en quelques clics — ou

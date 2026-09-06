@@ -8,10 +8,10 @@ export const SITE = {
   description:
     "Consultations de naturopathie en visio, massages bien-être à domicile et atelier de langue des signes pour bébé.",
   email: "Entremesmains28@gmail.com",
-  city: "Sancheville (28)",
+  city: "Les villages Vovéens (28)",
   region: "Centre-Val de Loire",
   /** Adresse professionnelle (pages légales + contact). */
-  adresse: "7 rue de Champfroid, 28800 Sancheville",
+  adresse: "Les villages Vovéens, 28150",
   /** Point de départ du calcul kilométrique. */
   adresseBase: "Mon domicile — entre Chartres et Châteaudun (28)",
   /** Responsable (pages légales). */

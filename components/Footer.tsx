@@ -26,9 +26,9 @@ export default function Footer() {
           <Image
             src="/images/logo.png"
             alt="Entre mes mains"
-            width={150}
-            height={95}
-            className="h-[95px] w-auto"
+            width={200}
+            height={128}
+            className="h-[120px] w-auto drop-shadow-[0_4px_16px_rgba(232,213,163,0.35)]"
           />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-cream/55">
             {SITE.tagline}. Consultations en visio, massages à domicile pour

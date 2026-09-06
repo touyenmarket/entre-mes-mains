@@ -90,8 +90,8 @@ export default function AtelierLsfPage() {
       {/* HERO — main de bébé en fond */}
       <section className="relative overflow-hidden">
         <Image
-          src="/images/bebe.jpg"
-          alt="Main de bébé dans la main d'un parent, lumière dorée"
+          src="/images/main-femme.jpg"
+          alt="Main de femme, douceur"
           fill
           sizes="100vw"
           className="object-cover opacity-40"
@@ -149,7 +149,7 @@ export default function AtelierLsfPage() {
             center
             eyebrow="Les formats"
             title="Trois façons de suivre l'atelier"
-            subtitle="Choisissez le format qui convient à votre famille et les professionnels de la petite enfance : à domicile, en collectif ou en visio."
+            subtitle="Choisissez le format qui convient à votre famille et aux professionnels* de la petite enfance : à domicile, en collectif ou en visio."
           />
           <div className="mt-12 grid gap-5 md:grid-cols-3">
             {formats.map((f) => (
@@ -167,6 +167,10 @@ export default function AtelierLsfPage() {
               </Card>
             ))}
           </div>
+          <p className="mx-auto mt-8 max-w-2xl text-center text-xs leading-relaxed text-cream/50">
+            * Pour les professionnels de la petite enfance, un devis sera
+            envoyé.
+          </p>
 
           {/* ACCESSIBILITÉ */}
           <Card className="mt-8 flex flex-col gap-5 p-8 sm:flex-row sm:items-center">
