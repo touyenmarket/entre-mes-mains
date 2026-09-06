@@ -97,7 +97,20 @@ export default async function MesRdvPage() {
                     {formatDateHeure(cr.debut_at)}
                   </p>
                 )}
-                <p className="mt-2 text-sm text-cream/70">{euros(r.total_cents)}</p>
+                <p className="mt-2 text-sm text-cream/70">
+                  {euros(r.total_cents)}
+                  {r.paiement_statut === "paye" ? " · payé" : " · en attente de paiement"}
+                </p>
+                {r.paiement_statut !== "paye" && (
+                  <p className="mt-2 text-sm">
+                    <Link
+                      href={`/reserver/confirmation/${r.numero}`}
+                      className="text-glow hover:underline"
+                    >
+                      Payer cette réservation
+                    </Link>
+                  </p>
+                )}
               </div>
             );
           })}

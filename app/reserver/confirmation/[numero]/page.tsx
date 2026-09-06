@@ -3,15 +3,20 @@ import { Container, Badge, ButtonLink } from "@/components/ui";
 import { getCurrentProfile } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { euros, formatDateHeure } from "@/lib/dates";
+import { isPaypalEnabled } from "@/lib/paiements/paypal";
+import { lancerPaiementPaypal } from "../../paiement/actions";
 
 export const metadata = { title: "Réservation confirmée" };
 
 export default async function ConfirmationPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ numero: string }>;
+  searchParams: Promise<{ paye?: string; annule?: string; erreur?: string }>;
 }) {
   const { numero } = await params;
+  const q = await searchParams;
   const { user } = await getCurrentProfile();
   if (!user) redirect("/connexion");
 
@@ -27,10 +32,12 @@ export default async function ConfirmationPage({
 
   const prestation = data.prestations as { label: string } | null;
   const creneau = data.creneaux as { debut_at: string; format: string } | null;
+  const paye = data.paiement_statut === "paye";
+  const paypal = isPaypalEnabled();
 
   return (
     <Container className="py-16 text-center sm:py-24">
-      <Badge>C’est noté</Badge>
+      <Badge>{paye ? "Payée" : "C’est noté"}</Badge>
       <h1 className="mt-6 font-serif text-4xl text-cream">
         Réservation {data.numero}
       </h1>
@@ -39,10 +46,49 @@ export default async function ConfirmationPage({
         {creneau ? ` · ${formatDateHeure(creneau.debut_at)}` : ""}
       </p>
       <p className="mt-3 text-glow">{euros(data.total_cents)}</p>
-      <p className="mx-auto mt-6 max-w-md text-sm text-cream/50">
-        Le paiement en ligne sera branché à l’étape suivante. Votre créneau est
-        bien réservé.
-      </p>
+
+      {q.paye === "1" && (
+        <p className="mx-auto mt-6 max-w-md text-sm text-cream/70">
+          Paiement reçu. Votre créneau est confirmé.
+        </p>
+      )}
+      {q.annule === "1" && (
+        <p className="mx-auto mt-6 max-w-md text-sm text-glow">
+          Paiement annulé. Vous pouvez réessayer quand vous voulez.
+        </p>
+      )}
+      {q.erreur === "paiement" && (
+        <p className="mx-auto mt-6 max-w-md text-sm text-glow">
+          Le paiement n’a pas abouti. Réessayez ou écrivez-nous.
+        </p>
+      )}
+
+      {!paye && paypal && (
+        <form action={lancerPaiementPaypal} className="mt-8">
+          <input type="hidden" name="numero" value={data.numero} />
+          <button
+            type="submit"
+            className="rounded-full bg-bronze px-6 py-3 text-sm font-semibold text-forest-deep hover:bg-glow"
+          >
+            Payer avec PayPal
+          </button>
+        </form>
+      )}
+
+      {!paye && !paypal && (
+        <p className="mx-auto mt-6 max-w-md text-sm text-cream/50">
+          Paiement en ligne en cours de configuration. Votre créneau est
+          réservé.
+        </p>
+      )}
+
+      {paye && (
+        <p className="mx-auto mt-6 max-w-md text-sm text-cream/50">
+          Un reçu sera disponible dans votre espace dès que les factures seront
+          activées.
+        </p>
+      )}
+
       <div className="mt-10 flex justify-center gap-3">
         <ButtonLink href="/mes-rendez-vous">Mes rendez-vous</ButtonLink>
         <ButtonLink href="/" variant="ghost">
