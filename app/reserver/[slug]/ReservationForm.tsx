@@ -66,7 +66,12 @@ export default function ReservationForm({
 
       {prestation.km_applicable && (
         <div className="glass-card space-y-3 rounded-2xl p-6">
-          <p className="text-sm text-cream/70">Adresse du rendez-vous</p>
+          <p className="text-sm font-semibold text-cream">Massage à domicile</p>
+          <p className="text-sm text-cream/55">
+            Déplacement au départ de Sancheville (entre Chartres et
+            Châteaudun). {ZONE_FRANCHE_KM} km inclus, puis{" "}
+            {TARIF_KM_EUR.toFixed(2).replace(".", ",")} €/km.
+          </p>
           <input
             name="adresse"
             required
@@ -74,7 +79,7 @@ export default function ReservationForm({
             className="w-full rounded-xl border border-bronze/30 bg-forest-deep/60 px-3 py-2 text-cream"
           />
           <label className="block text-sm text-cream/70">
-            Distance estimée depuis Sancheville : {distance} km
+            Distance estimée : <strong className="text-cream">{distance} km</strong>
             <input
               type="range"
               name="distance_km"
@@ -85,9 +90,10 @@ export default function ReservationForm({
               className="mt-2 w-full"
             />
           </label>
-          <p className="text-sm text-cream/55">
-            {ZONE_FRANCHE_KM} km inclus, puis {TARIF_KM_EUR.toFixed(2)} €/km.
-            Supplément : {supp.toFixed(2)} €.
+          <p className="text-sm text-cream/70">
+            Séance {euros(prestation.prix_base_cents)} + supplément km{" "}
+            {supp.toFixed(2).replace(".", ",")} € ={" "}
+            <span className="text-glow">{euros(totalCents)}</span>
           </p>
         </div>
       )}

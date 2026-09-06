@@ -25,14 +25,41 @@ export default function NouveauCreneauForm({
   return (
     <form id="form-creneau" action={onSubmit} className="glass-card grid gap-4 rounded-2xl p-6 sm:grid-cols-2">
       <label className="text-sm text-cream/70">
-        Début
+        Date
         <input
-          name="debut"
-          type="datetime-local"
+          name="date"
+          type="date"
           required
           className="mt-1 w-full rounded-xl border border-bronze/30 bg-forest-deep/60 px-3 py-2 text-cream"
         />
       </label>
+      <div className="grid grid-cols-2 gap-3">
+        <label className="text-sm text-cream/70">
+          Heure
+          <select
+            name="heure"
+            defaultValue="10"
+            className="mt-1 w-full rounded-xl border border-bronze/30 bg-forest-deep/60 px-3 py-2 text-cream"
+          >
+            {Array.from({ length: 13 }, (_, i) => i + 8).map((h) => (
+              <option key={h} value={h}>
+                {String(h).padStart(2, "0")} h
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="text-sm text-cream/70">
+          Minutes
+          <select
+            name="minute"
+            defaultValue="00"
+            className="mt-1 w-full rounded-xl border border-bronze/30 bg-forest-deep/60 px-3 py-2 text-cream"
+          >
+            <option value="0">00</option>
+            <option value="30">30</option>
+          </select>
+        </label>
+      </div>
       <label className="text-sm text-cream/70">
         Durée (minutes)
         <input

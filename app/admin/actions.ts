@@ -3,22 +3,26 @@
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { parisLocalToIso } from "@/lib/dates";
 import type { FormatPrestation, StatutCreneau } from "@/lib/supabase/types";
 
 export async function creerCreneau(formData: FormData) {
   const gate = await requireAdmin();
   if (!gate.ok) return { error: "Accès réservé à la praticienne." };
 
-  const debutLocal = String(formData.get("debut") || "");
+  const date = String(formData.get("date") || "");
+  const heure = Number(formData.get("heure") || 10);
+  const minute = Number(formData.get("minute") || 0);
   const dureeMin = Number(formData.get("duree") || 60);
   const format = String(formData.get("format") || "visio") as FormatPrestation;
   const capacite = Number(formData.get("capacite") || 1);
   const prestationId = String(formData.get("prestation_id") || "");
   const note = String(formData.get("note") || "").trim();
 
-  if (!debutLocal) return { error: "Indiquez le début du créneau." };
+  if (!date) return { error: "Indiquez la date du créneau." };
 
-  const debut = new Date(debutLocal);
+  const debutIso = parisLocalToIso(date, heure, minute);
+  const debut = new Date(debutIso);
   if (Number.isNaN(debut.getTime())) return { error: "Date invalide." };
   const fin = new Date(debut.getTime() + dureeMin * 60 * 1000);
 
