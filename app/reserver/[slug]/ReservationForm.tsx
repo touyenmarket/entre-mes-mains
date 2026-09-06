@@ -19,10 +19,45 @@ export default function ReservationForm({
   nom: string;
   telephone: string;
 }) {
-  const [distance, setDistance] = useState(15);
+  const [adresse, setAdresse] = useState("");
+  const [distance, setDistance] = useState<number | null>(null);
+  const [calcStatus, setCalcStatus] = useState("");
   const [status, setStatus] = useState("");
-  const supp = prestation.km_applicable ? supplementKm(distance) : 0;
+  const km = distance ?? 0;
+  const supp = prestation.km_applicable ? supplementKm(km) : 0;
   const totalCents = prestation.prix_base_cents + Math.round(supp * 100);
+
+  async function calculerDistance(value: string) {
+    if (!prestation.km_applicable) return;
+    const trimmed = value.trim();
+    if (trimmed.length < 8) {
+      setDistance(null);
+      setCalcStatus("");
+      return;
+    }
+    setCalcStatus("Calcul de l’itinéraire…");
+    try {
+      const res = await fetch("/api/distance", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ adresse: trimmed }),
+      });
+      const data = (await res.json()) as {
+        distance_km?: number;
+        error?: string;
+      };
+      if (!res.ok || data.error || data.distance_km == null) {
+        setDistance(null);
+        setCalcStatus(data.error || "Adresse introuvable.");
+        return;
+      }
+      setDistance(data.distance_km);
+      setCalcStatus(`Trajet calculé : ${data.distance_km} km depuis Sancheville.`);
+    } catch {
+      setDistance(null);
+      setCalcStatus("Impossible de calculer la distance pour le moment.");
+    }
+  }
 
   const grouped = useMemo(() => {
     return creneaux;
@@ -75,26 +110,24 @@ export default function ReservationForm({
           <input
             name="adresse"
             required
+            value={adresse}
+            onChange={(e) => {
+              setAdresse(e.target.value);
+              setDistance(null);
+            }}
+            onBlur={() => calculerDistance(adresse)}
             placeholder="N°, rue, code postal, ville"
             className="w-full rounded-xl border border-bronze/30 bg-forest-deep/60 px-3 py-2 text-cream"
           />
-          <label className="block text-sm text-cream/70">
-            Distance estimée : <strong className="text-cream">{distance} km</strong>
-            <input
-              type="range"
-              name="distance_km"
-              min={0}
-              max={80}
-              value={distance}
-              onChange={(e) => setDistance(Number(e.target.value))}
-              className="mt-2 w-full"
-            />
-          </label>
-          <p className="text-sm text-cream/70">
-            Séance {euros(prestation.prix_base_cents)} + supplément km{" "}
-            {supp.toFixed(2).replace(".", ",")} € ={" "}
-            <span className="text-glow">{euros(totalCents)}</span>
-          </p>
+          <input type="hidden" name="distance_km" value={km} />
+          <p className="text-sm text-cream/55">{calcStatus}</p>
+          {distance != null && (
+            <p className="text-sm text-cream/70">
+              Séance {euros(prestation.prix_base_cents)} + supplément km{" "}
+              {supp.toFixed(2).replace(".", ",")} € ={" "}
+              <span className="text-glow">{euros(totalCents)}</span>
+            </p>
+          )}
         </div>
       )}
 
@@ -142,7 +175,10 @@ export default function ReservationForm({
 
       <button
         type="submit"
-        disabled={grouped.length === 0}
+        disabled={
+          grouped.length === 0 ||
+          (prestation.km_applicable && distance == null)
+        }
         className="rounded-full bg-bronze px-6 py-3 text-sm font-semibold text-forest-deep hover:bg-glow disabled:opacity-50"
       >
         Confirmer la réservation
