@@ -112,7 +112,7 @@ export default function AtelierLsfPage() {
             intégrer en douceur à vos échanges, à votre rythme.
           </p>
           <div className="mt-8">
-            <ButtonLink href="/reserver">Réserver l&apos;atelier</ButtonLink>
+            <ButtonLink href="/reserver?type=atelier">Réserver l&apos;atelier</ButtonLink>
           </div>
         </Container>
       </section>
@@ -249,7 +249,7 @@ export default function AtelierLsfPage() {
             Et si bébé vous le disait avec les mains&nbsp;?
           </h2>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-            <ButtonLink href="/reserver">Réserver l&apos;atelier</ButtonLink>
+            <ButtonLink href="/reserver?type=atelier">Réserver l&apos;atelier</ButtonLink>
             <ButtonLink href="/contact" variant="ghost">
               Poser une question
             </ButtonLink>

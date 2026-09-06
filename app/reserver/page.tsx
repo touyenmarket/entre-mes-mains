@@ -12,7 +12,26 @@ const TYPE_LABEL: Record<string, string> = {
   atelier: "Atelier LSF",
 };
 
-export default async function ReserverPage() {
+const INTROS: Record<string, string> = {
+  naturo:
+    "Choisissez votre consultation. Le rendez-vous se fait en visio.",
+  massage:
+    "Choisissez le massage. L’adresse servira à calculer le déplacement.",
+  atelier:
+    "Choisissez le format de l’atelier LSF : domicile, collectif ou visio.",
+};
+
+export default async function ReserverPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ type?: string }>;
+}) {
+  const { type: typeParam } = await searchParams;
+  const typeFiltre =
+    typeParam === "naturo" || typeParam === "massage" || typeParam === "atelier"
+      ? typeParam
+      : null;
+
   const supabase = await createClient();
   const { data } = await supabase
     .from("prestations")
@@ -20,8 +39,12 @@ export default async function ReserverPage() {
     .eq("actif", true)
     .order("position");
 
-  const prestations = (data || []) as Prestation[];
-  const groups = ["naturo", "massage", "atelier"] as const;
+  const prestations = ((data || []) as Prestation[]).filter((p) =>
+    typeFiltre ? p.type === typeFiltre : true
+  );
+  const groups = (typeFiltre
+    ? [typeFiltre]
+    : ["naturo", "massage", "atelier"]) as Array<"naturo" | "massage" | "atelier">;
 
   return (
     <Container className="relative py-16 sm:py-24">
@@ -29,12 +52,20 @@ export default async function ReserverPage() {
       <div className="relative">
         <Badge>Réservation</Badge>
         <h1 className="mt-5 font-serif text-4xl font-medium text-cream">
-          Choisir une prestation
+          {typeFiltre ? TYPE_LABEL[typeFiltre] : "Choisir une prestation"}
         </h1>
         <p className="mt-4 max-w-xl text-[15px] text-cream/65">
-          Sélectionnez l’accompagnement. Vous choisirez ensuite un créneau
-          parmi les disponibilités ouvertes.
+          {typeFiltre
+            ? INTROS[typeFiltre]
+            : "Sélectionnez l’accompagnement. Vous choisirez ensuite un créneau parmi les disponibilités ouvertes."}
         </p>
+        {typeFiltre && (
+          <p className="mt-3 text-sm">
+            <Link href="/reserver" className="text-glow hover:underline">
+              Voir toutes les prestations
+            </Link>
+          </p>
+        )}
 
         {prestations.length === 0 && (
           <p className="mt-8 text-cream/55">

@@ -213,7 +213,7 @@ export default function MassageAccordion() {
                 </div>
 
                 <Link
-                  href="/reserver"
+                  href="/reserver?type=massage"
                   className="mt-6 inline-flex items-center gap-2 rounded-full bg-bronze px-6 py-2.5 text-sm font-semibold text-forest-deep transition-colors hover:bg-glow"
                 >
                   Réserver ce massage

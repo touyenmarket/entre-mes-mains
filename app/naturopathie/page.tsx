@@ -101,7 +101,7 @@ export default function NaturopathiePage() {
             environnement.
           </p>
           <div className="mt-8">
-            <ButtonLink href="/reserver">Réserver une consultation</ButtonLink>
+            <ButtonLink href="/reserver?type=naturo">Réserver une consultation</ButtonLink>
           </div>
           <p className="mt-7 flex items-center justify-center gap-2 text-xs font-medium text-sage-light">
             <Image
@@ -224,7 +224,7 @@ export default function NaturopathiePage() {
             Faire le point sur votre vitalité
           </h2>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-            <ButtonLink href="/reserver">Réserver une consultation</ButtonLink>
+            <ButtonLink href="/reserver?type=naturo">Réserver une consultation</ButtonLink>
             <ButtonLink href="/contact" variant="ghost">
               Poser une question
             </ButtonLink>

@@ -56,7 +56,7 @@ export default function MassagesPage() {
             prénatal, postnatal et bébé, au rythme de chacun.
           </p>
           <div className="mt-8">
-            <ButtonLink href="/reserver">Réserver un massage</ButtonLink>
+            <ButtonLink href="/reserver?type=massage">Réserver un massage</ButtonLink>
           </div>
           <p className="mt-7 flex items-center justify-center gap-2 text-xs font-medium text-sage-light">
             <Image
@@ -106,7 +106,7 @@ export default function MassagesPage() {
                 toute connaissance du montant final.
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
-                <ButtonLink href="/reserver">Réserver un massage</ButtonLink>
+                <ButtonLink href="/reserver?type=massage">Réserver un massage</ButtonLink>
                 <ButtonLink href="/contact" variant="ghost">
                   Une question sur la zone ?
                 </ButtonLink>
@@ -155,7 +155,7 @@ export default function MassagesPage() {
             S&apos;accorder une pause, sans bouger de chez soi
           </h2>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-            <ButtonLink href="/reserver">Réserver un massage</ButtonLink>
+            <ButtonLink href="/reserver?type=massage">Réserver un massage</ButtonLink>
             <ButtonLink href="/atelier-lsf" variant="ghost">
               Découvrir l&apos;atelier LSF
             </ButtonLink>
