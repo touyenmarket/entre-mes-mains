@@ -111,6 +111,16 @@ export default async function MesRdvPage() {
                     </Link>
                   </p>
                 )}
+                {r.paiement_statut === "paye" && (
+                  <p className="mt-2 text-sm">
+                    <a
+                      href={`/api/facture/${r.numero}`}
+                      className="text-glow hover:underline"
+                    >
+                      Télécharger la facture PDF
+                    </a>
+                  </p>
+                )}
               </div>
             );
           })}

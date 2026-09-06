@@ -83,10 +83,11 @@ export default async function ConfirmationPage({
       )}
 
       {paye && (
-        <p className="mx-auto mt-6 max-w-md text-sm text-cream/50">
-          Un reçu sera disponible dans votre espace dès que les factures seront
-          activées.
-        </p>
+        <div className="mt-8">
+          <ButtonLink href={`/api/facture/${data.numero}`}>
+            Télécharger la facture PDF
+          </ButtonLink>
+        </div>
       )}
 
       <div className="mt-10 flex justify-center gap-3">

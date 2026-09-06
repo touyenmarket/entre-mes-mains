@@ -49,6 +49,8 @@ export default async function PaiementRetourPage({
         statut: "confirmee",
       })
       .eq("id", reservation.id);
+    const { emettreFactureSiBesoin } = await import("@/lib/factures/emettre");
+    await emettreFactureSiBesoin(reservation.id);
   } catch {
     redirect(`/reserver/confirmation/${numero}?erreur=paiement`);
   }
