@@ -1,7 +1,8 @@
-import Link from "next/link";
 import { Container, Badge, HaloStrong, ButtonLink } from "@/components/ui";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/admin";
+import { euros, formatDateHeure } from "@/lib/dates";
+import Link from "next/link";
 
 export const metadata = { title: "Mes rendez-vous" };
 
@@ -9,19 +10,7 @@ export default async function MesRdvPage() {
   if (!isSupabaseConfigured()) {
     return (
       <Container className="relative py-24 text-center">
-        <HaloStrong className="left-1/2 top-1/3 h-[420px] w-[640px] -translate-x-1/2" />
-        <div className="relative">
-          <Badge>Espace patient</Badge>
-          <h1 className="mt-6 font-serif text-4xl text-cream">
-            Connexion bientôt active
-          </h1>
-          <p className="mx-auto mt-4 max-w-lg text-cream/60">
-            Les clés Supabase ne sont pas encore renseignées sur l’hébergement.
-          </p>
-          <div className="mt-8">
-            <ButtonLink href="/connexion">Aller à la connexion</ButtonLink>
-          </div>
-        </div>
+        <ButtonLink href="/connexion">Aller à la connexion</ButtonLink>
       </Container>
     );
   }
@@ -40,9 +29,8 @@ export default async function MesRdvPage() {
           <h1 className="mt-6 font-serif text-4xl font-medium text-cream">
             Votre espace
           </h1>
-          <p className="mx-auto mt-4 max-w-lg text-[15px] leading-relaxed text-cream/60">
-            Connectez-vous avec un lien envoyé par email pour retrouver vos
-            rendez-vous, vos factures et vos liens de visio.
+          <p className="mx-auto mt-4 max-w-lg text-[15px] text-cream/60">
+            Connectez-vous pour voir vos rendez-vous.
           </p>
           <div className="mt-8">
             <ButtonLink href="/connexion">Recevoir mon lien</ButtonLink>
@@ -58,6 +46,12 @@ export default async function MesRdvPage() {
     .eq("id", user.id)
     .maybeSingle();
 
+  const { data: reservations } = await supabase
+    .from("reservations")
+    .select("*, prestations(label), creneaux(debut_at, format)")
+    .eq("profile_id", user.id)
+    .order("created_at", { ascending: false });
+
   const prenom = profile?.prenom || user.email?.split("@")[0] || "vous";
 
   return (
@@ -70,20 +64,43 @@ export default async function MesRdvPage() {
         </h1>
         <p className="mt-3 text-sm text-cream/55">{user.email}</p>
         {profile?.role === "admin" && (
-          <p className="mt-2 text-xs uppercase tracking-wide text-glow">
-            Compte praticienne
-          </p>
+          <div className="mt-4">
+            <ButtonLink href="/admin">Ouvrir le calendrier admin</ButtonLink>
+          </div>
         )}
 
-        <div className="mt-10 glass-card rounded-2xl p-8">
-          <h2 className="font-serif text-2xl text-cream">Rendez-vous</h2>
-          <p className="mt-3 text-[15px] leading-relaxed text-cream/65">
-            Aucune réservation pour le moment. Le calendrier et le paiement
-            arrivent à l’étape suivante.
-          </p>
-          <div className="mt-6">
-            <ButtonLink href="/reserver">Réserver une séance</ButtonLink>
-          </div>
+        <div className="mt-10 space-y-4">
+          {(!reservations || reservations.length === 0) && (
+            <div className="glass-card rounded-2xl p-8">
+              <h2 className="font-serif text-2xl text-cream">Rendez-vous</h2>
+              <p className="mt-3 text-[15px] text-cream/65">
+                Aucune réservation pour le moment.
+              </p>
+              <div className="mt-6">
+                <ButtonLink href="/reserver">Réserver une séance</ButtonLink>
+              </div>
+            </div>
+          )}
+          {(reservations || []).map((r) => {
+            const pre = r.prestations as { label: string } | null;
+            const cr = r.creneaux as { debut_at: string } | null;
+            return (
+              <div key={r.id} className="glass-card rounded-2xl p-6">
+                <p className="text-xs uppercase tracking-wide text-glow">
+                  {r.numero} · {r.statut}
+                </p>
+                <p className="mt-2 font-serif text-2xl text-cream">
+                  {pre?.label || "Prestation"}
+                </p>
+                {cr && (
+                  <p className="mt-1 text-sm text-cream/60">
+                    {formatDateHeure(cr.debut_at)}
+                  </p>
+                )}
+                <p className="mt-2 text-sm text-cream/70">{euros(r.total_cents)}</p>
+              </div>
+            );
+          })}
         </div>
 
         <form action="/auth/signout" method="post" className="mt-8">
@@ -95,7 +112,7 @@ export default async function MesRdvPage() {
           </button>
         </form>
         <p className="mt-6 text-sm text-cream/40">
-          Besoin d’aide ?{" "}
+          Besoin d&apos;aide ?{" "}
           <Link href="/contact" className="text-glow hover:underline">
             Contact
           </Link>

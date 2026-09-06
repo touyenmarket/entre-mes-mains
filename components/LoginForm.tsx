@@ -37,11 +37,20 @@ export default function LoginForm() {
 
     if (error) {
       setStatus("error");
-      setMessage(
-        error.message.includes("rate")
-          ? "Trop de tentatives. Réessayez dans quelques minutes."
-          : "Impossible d’envoyer le lien. Vérifiez l’adresse et réessayez."
-      );
+      const raw = error.message || "";
+      if (/rate|too many/i.test(raw)) {
+        setMessage("Trop de tentatives. Réessayez dans quelques minutes.");
+      } else if (/invalid api key|jwt|apikey|unauthorized|401/i.test(raw)) {
+        setMessage(
+          "Clé Supabase refusée. Dans Vercel, utilise les clés « Legacy anon / service_role » (elles commencent par eyJ), puis Redeploy."
+        );
+      } else if (/redirect|url/i.test(raw)) {
+        setMessage(
+          "L’URL de redirection n’est pas autorisée. Vérifie Authentication → URL Configuration dans Supabase."
+        );
+      } else {
+        setMessage(raw || "Impossible d’envoyer le lien. Réessayez.");
+      }
       return;
     }
 
