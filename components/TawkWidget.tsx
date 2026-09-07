@@ -3,8 +3,10 @@
 import { useEffect } from "react";
 
 export default function TawkWidget() {
-  const property = process.env.NEXT_PUBLIC_TAWK_PROPERTY_ID;
-  const widget = process.env.NEXT_PUBLIC_TAWK_WIDGET_ID;
+  const property =
+    process.env.NEXT_PUBLIC_TAWK_PROPERTY_ID || "6a9efa9658d80e344281f5aa";
+  const widget =
+    process.env.NEXT_PUBLIC_TAWK_WIDGET_ID || "1k1ug5n0l";
 
   useEffect(() => {
     if (!property || !widget) return;
