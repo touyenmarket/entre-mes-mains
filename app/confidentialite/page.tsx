@@ -34,6 +34,7 @@ const sections = [
       "Hébergement : Vercel (application) et Supabase (base de données) — données hébergées dans l'Union européenne.",
       "Paiement : PayPal (et tout autre prestataire de paiement proposé sur le site).",
       "Emails : prestataire d'envoi d'emails transactionnels (Brevo).",
+      "Chat en ligne : Tawk.to (messages échangés via la bulle du site, pour répondre depuis le téléphone sans afficher de numéro).",
       "Visioconférence : Zoom (création automatique du lien de réunion).",
       "Calcul de distance : OpenRouteService (adresse transformée en distance kilométrique).",
       "Chaque sous-traitant présente des garanties contractuelles conformes au RGPD.",
@@ -58,7 +59,7 @@ const sections = [
   {
     titre: "7. Cookies et traceurs",
     corps: [
-      "Ce site n'utilise aucun traceur publicitaire ni cookie de mesure d'audience tiers. Seuls les cookies strictement nécessaires au fonctionnement (session de connexion) sont utilisés.",
+      "Ce site n'utilise aucun traceur publicitaire. Seuls les cookies strictement nécessaires au fonctionnement (session de connexion) et, le cas échéant, ceux du chat Tawk.to sont utilisés.",
     ],
   },
 ];
