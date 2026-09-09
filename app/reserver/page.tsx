@@ -9,7 +9,7 @@ export const metadata = { title: "Réserver" };
 const TYPE_LABEL: Record<string, string> = {
   naturo: "Naturopathie",
   massage: "Massages à domicile",
-  atelier: "Atelier LSF",
+  atelier: "Atelier de bébé signes",
 };
 
 const INTROS: Record<string, string> = {
@@ -18,7 +18,7 @@ const INTROS: Record<string, string> = {
   massage:
     "Choisissez le massage. L’adresse servira à calculer le déplacement.",
   atelier:
-    "Choisissez le format de l’atelier LSF : domicile, collectif ou visio.",
+    "Choisissez le format de l’atelier de bébé signes : domicile, collectif ou visio. Tout le matériel et les supports sont fournis.",
 };
 
 export default async function ReserverPage({

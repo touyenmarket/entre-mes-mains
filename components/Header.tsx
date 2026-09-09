@@ -20,7 +20,7 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-bronze/15 bg-forest-deep/85 backdrop-blur-md">
-      <div className="mx-auto flex h-[72px] w-full max-w-6xl items-center justify-between px-5 sm:px-8">
+      <div className="mx-auto flex h-[88px] w-full max-w-6xl items-center justify-between px-5 sm:px-8">
         <Link
           href="/"
           onClick={() => setOpen(false)}
@@ -32,7 +32,7 @@ export default function Header() {
             width={160}
             height={100}
             priority
-            className="h-[68px] w-auto drop-shadow-[0_2px_10px_rgba(232,213,163,0.45)]"
+            className="h-[84px] w-auto drop-shadow-[0_4px_14px_rgba(232,213,163,0.55)]"
           />
         </Link>
 
@@ -51,16 +51,15 @@ export default function Header() {
           <span
             title="Prestations accessibles aux personnes sourdes et malentendantes"
             aria-label="Accessible aux personnes sourdes et malentendantes"
-            className="inline-flex items-center gap-1.5 rounded-full border border-sage/40 px-3 py-1.5 text-[11px] font-semibold tracking-wide text-sage-light"
+            className="inline-flex items-center rounded-full border border-sage/40 p-2 text-sage-light"
           >
             <Image
               src="/images/signante.png"
-              alt=""
-              width={16}
-              height={17}
-              className="h-[17px] w-auto"
+              alt="Accessible aux personnes sourdes et malentendantes"
+              width={32}
+              height={34}
+              className="h-[34px] w-auto drop-shadow-[0_2px_6px_rgba(232,213,163,0.4)]"
             />
-            LSF
           </span>
         </nav>
 
@@ -68,16 +67,15 @@ export default function Header() {
           <span
             title="Prestations accessibles aux personnes sourdes et malentendantes"
             aria-label="Accessible aux personnes sourdes et malentendantes"
-            className="inline-flex items-center gap-1.5 rounded-full border border-sage/40 px-2.5 py-1 text-[10px] font-semibold tracking-wide text-sage-light"
+            className="inline-flex items-center rounded-full border border-sage/40 p-1.5 text-sage-light"
           >
             <Image
               src="/images/signante.png"
-              alt=""
-              width={14}
-              height={15}
-              className="h-[15px] w-auto"
+              alt="Accessible aux personnes sourdes et malentendantes"
+              width={28}
+              height={30}
+              className="h-[30px] w-auto drop-shadow-[0_2px_6px_rgba(232,213,163,0.4)]"
             />
-            LSF
           </span>
           <button
             className="text-cream"

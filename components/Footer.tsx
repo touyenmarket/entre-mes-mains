@@ -6,7 +6,7 @@ import { ZONE_FRANCHE_KM, TARIF_KM_EUR } from "@/lib/tarification";
 const activites = [
   { href: "/naturopathie", label: "Naturopathie en visio" },
   { href: "/massages", label: "Massages à domicile" },
-  { href: "/atelier-lsf", label: "Atelier LSF bébé" },
+  { href: "/atelier-lsf", label: "Atelier de bébé signes" },
   { href: "/reserver", label: "Réserver" },
 ];
 
@@ -28,7 +28,7 @@ export default function Footer() {
             alt="Entre mes mains"
             width={200}
             height={128}
-            className="h-[120px] w-auto drop-shadow-[0_4px_16px_rgba(232,213,163,0.35)]"
+            className="h-[148px] w-auto drop-shadow-[0_6px_20px_rgba(232,213,163,0.5)]"
           />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-cream/55">
             {SITE.tagline}. Consultations en visio, massages à domicile pour

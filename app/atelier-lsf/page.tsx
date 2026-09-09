@@ -99,7 +99,6 @@ export default function AtelierLsfPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-forest-deep/70 via-forest-deep/60 to-forest-deep" />
         <HaloStrong className="left-1/2 top-1/3 h-[400px] w-[640px] -translate-x-1/2" />
         <Container className="relative flex flex-col items-center py-24 text-center sm:py-28">
-          <Badge>Atelier langue des signes française</Badge>
           <h1 className="mt-6 max-w-2xl font-serif text-4xl font-medium leading-[1.15] text-cream sm:text-5xl">
             Offrir à bébé ses premiers mots, avec les mains
           </h1>
@@ -172,27 +171,6 @@ export default function AtelierLsfPage() {
             envoyé.
           </p>
 
-          {/* ACCESSIBILITÉ */}
-          <Card className="mt-8 flex flex-col gap-5 p-8 sm:flex-row sm:items-center">
-            <Image
-              src="/images/signante.png"
-              alt=""
-              width={52}
-              height={55}
-              className="h-[55px] w-auto shrink-0"
-            />
-            <div>
-              <h3 className="font-serif text-lg text-cream">
-                Un atelier accessible aux personnes sourdes et malentendantes
-              </h3>
-              <p className="mt-1.5 text-sm leading-relaxed text-cream/60">
-                L&apos;atelier est conçu pour être suivi en langue des signes
-                française : des supports vidéo signés et sous-titrés
-                accompagnent les séances et restent consultables après
-                l&apos;atelier.
-              </p>
-            </div>
-          </Card>
         </Container>
       </section>
 

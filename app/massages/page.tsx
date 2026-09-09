@@ -62,9 +62,9 @@ export default function MassagesPage() {
             <Image
               src="/images/signante.png"
               alt=""
-              width={16}
-              height={17}
-              className="h-[17px] w-auto shrink-0"
+              width={32}
+              height={34}
+              className="h-[34px] w-auto shrink-0 drop-shadow-[0_2px_8px_rgba(232,213,163,0.45)]"
             />
             Massages accessibles aux personnes sourdes et malentendantes
           </p>
@@ -157,7 +157,7 @@ export default function MassagesPage() {
           <div className="mt-8 flex flex-col gap-4 sm:flex-row">
             <ButtonLink href="/reserver?type=massage">Réserver un massage</ButtonLink>
             <ButtonLink href="/atelier-lsf" variant="ghost">
-              Découvrir l&apos;atelier LSF
+              Découvrir l&apos;atelier de bébé signes
             </ButtonLink>
           </div>
         </Container>
