@@ -29,10 +29,7 @@ export default function CreneauAdminRow({ creneau }: { creneau: Creneau }) {
   const [edit, setEdit] = useState(false);
   const [msg, setMsg] = useState("");
   const init = partsFromIso(creneau.debut_at);
-  const duree = Math.max(
-    15,
-    Math.round((new Date(creneau.fin_at).getTime() - new Date(creneau.debut_at).getTime()) / 60000),
-  );
+  const finParts = partsFromIso(creneau.fin_at);
 
   async function onSave(formData: FormData) {
     setMsg("Enregistrement…");
@@ -119,15 +116,26 @@ export default function CreneauAdminRow({ creneau }: { creneau: Creneau }) {
             </select>
           </label>
           <label className="text-xs text-cream/70">
-            Minutes
+            Début — min
             <select name="minute" defaultValue={init.minute} className="mt-1 w-full rounded-xl border border-bronze/30 bg-forest-deep/60 px-3 py-2 text-cream">
               <option value="0">00</option>
               <option value="30">30</option>
             </select>
           </label>
           <label className="text-xs text-cream/70">
-            Durée
-            <input name="duree" type="number" min={15} defaultValue={duree} className="mt-1 w-full rounded-xl border border-bronze/30 bg-forest-deep/60 px-3 py-2 text-cream" />
+            Fin — heure
+            <select name="fin_heure" defaultValue={finParts.heure} className="mt-1 w-full rounded-xl border border-bronze/30 bg-forest-deep/60 px-3 py-2 text-cream">
+              {Array.from({ length: 14 }, (_, i) => i + 8).map((h) => (
+                <option key={h} value={h}>{String(h).padStart(2, "0")} h</option>
+              ))}
+            </select>
+          </label>
+          <label className="text-xs text-cream/70">
+            Fin — min
+            <select name="fin_minute" defaultValue={finParts.minute} className="mt-1 w-full rounded-xl border border-bronze/30 bg-forest-deep/60 px-3 py-2 text-cream">
+              <option value="0">00</option>
+              <option value="30">30</option>
+            </select>
           </label>
           <label className="text-xs text-cream/70">
             Format

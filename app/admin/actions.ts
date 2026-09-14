@@ -6,25 +6,47 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { parisLocalToIso } from "@/lib/dates";
 import type { FormatPrestation, StatutCreneau } from "@/lib/supabase/types";
 
+function bornesDepuisForm(formData: FormData) {
+  const date = String(formData.get("date") || "");
+  const heure = Number(formData.get("heure") || 10);
+  const minute = Number(formData.get("minute") || 0);
+  const finHeureRaw = formData.get("fin_heure");
+  const finMinuteRaw = formData.get("fin_minute");
+  const dureeMin = Number(formData.get("duree") || 60);
+
+  if (!date) return { error: "Indiquez la date du créneau." as const };
+
+  const debutIso = parisLocalToIso(date, heure, minute);
+  const debut = new Date(debutIso);
+  if (Number.isNaN(debut.getTime())) return { error: "Date invalide." as const };
+
+  let fin: Date;
+  if (finHeureRaw != null && String(finHeureRaw) !== "") {
+    const fh = Number(finHeureRaw);
+    const fm = Number(finMinuteRaw || 0);
+    const finIso = parisLocalToIso(date, fh, fm);
+    fin = new Date(finIso);
+    if (fin.getTime() <= debut.getTime()) {
+      return { error: "L’heure de fin doit être après l’heure de début." as const };
+    }
+  } else {
+    fin = new Date(debut.getTime() + Math.max(15, dureeMin) * 60 * 1000);
+  }
+  return { debut, fin };
+}
+
 export async function creerCreneau(formData: FormData) {
   const gate = await requireAdmin();
   if (!gate.ok) return { error: "Accès réservé à la praticienne." };
 
-  const date = String(formData.get("date") || "");
-  const heure = Number(formData.get("heure") || 10);
-  const minute = Number(formData.get("minute") || 0);
-  const dureeMin = Number(formData.get("duree") || 60);
   const format = String(formData.get("format") || "visio") as FormatPrestation;
   const capacite = Number(formData.get("capacite") || 1);
   const prestationId = String(formData.get("prestation_id") || "");
   const note = String(formData.get("note") || "").trim();
 
-  if (!date) return { error: "Indiquez la date du créneau." };
-
-  const debutIso = parisLocalToIso(date, heure, minute);
-  const debut = new Date(debutIso);
-  if (Number.isNaN(debut.getTime())) return { error: "Date invalide." };
-  const fin = new Date(debut.getTime() + dureeMin * 60 * 1000);
+  const bornes = bornesDepuisForm(formData);
+  if ("error" in bornes) return { error: bornes.error };
+  const { debut, fin } = bornes;
 
   const admin = createAdminClient();
   const { error } = await admin.from("creneaux").insert({
@@ -49,20 +71,14 @@ export async function modifierCreneau(formData: FormData) {
   if (!gate.ok) return { error: "Accès refusé." };
 
   const id = String(formData.get("id") || "");
-  const date = String(formData.get("date") || "");
-  const heure = Number(formData.get("heure") || 10);
-  const minute = Number(formData.get("minute") || 0);
-  const dureeMin = Number(formData.get("duree") || 60);
   const format = String(formData.get("format") || "visio") as FormatPrestation;
   const capacite = Number(formData.get("capacite") || 1);
   const note = String(formData.get("note") || "").trim();
 
-  if (!id || !date) return { error: "Créneau incomplet." };
-
-  const debutIso = parisLocalToIso(date, heure, minute);
-  const debut = new Date(debutIso);
-  if (Number.isNaN(debut.getTime())) return { error: "Date invalide." };
-  const fin = new Date(debut.getTime() + dureeMin * 60 * 1000);
+  if (!id) return { error: "Créneau incomplet." };
+  const bornes = bornesDepuisForm(formData);
+  if ("error" in bornes) return { error: bornes.error };
+  const { debut, fin } = bornes;
 
   const admin = createAdminClient();
   const { error } = await admin

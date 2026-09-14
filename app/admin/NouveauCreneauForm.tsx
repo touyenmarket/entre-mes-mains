@@ -36,13 +36,13 @@ export default function NouveauCreneauForm({
       </label>
       <div className="grid grid-cols-2 gap-3">
         <label className="text-sm text-cream/70">
-          Heure
+          Début — heure
           <select
             name="heure"
             defaultValue="10"
             className="mt-1 w-full rounded-xl border border-bronze/30 bg-forest-deep/60 px-3 py-2 text-cream"
           >
-            {Array.from({ length: 13 }, (_, i) => i + 8).map((h) => (
+            {Array.from({ length: 14 }, (_, i) => i + 8).map((h) => (
               <option key={h} value={h}>
                 {String(h).padStart(2, "0")} h
               </option>
@@ -50,7 +50,7 @@ export default function NouveauCreneauForm({
           </select>
         </label>
         <label className="text-sm text-cream/70">
-          Minutes
+          Début — minutes
           <select
             name="minute"
             defaultValue="00"
@@ -61,16 +61,33 @@ export default function NouveauCreneauForm({
           </select>
         </label>
       </div>
-      <label className="text-sm text-cream/70">
-        Durée (minutes)
-        <input
-          name="duree"
-          type="number"
-          min={15}
-          defaultValue={60}
-          className="mt-1 w-full rounded-xl border border-bronze/30 bg-forest-deep/60 px-3 py-2 text-cream"
-        />
-      </label>
+      <div className="grid grid-cols-2 gap-3">
+        <label className="text-sm text-cream/70">
+          Fin — heure
+          <select
+            name="fin_heure"
+            defaultValue="11"
+            className="mt-1 w-full rounded-xl border border-bronze/30 bg-forest-deep/60 px-3 py-2 text-cream"
+          >
+            {Array.from({ length: 14 }, (_, i) => i + 8).map((h) => (
+              <option key={h} value={h}>
+                {String(h).padStart(2, "0")} h
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="text-sm text-cream/70">
+          Fin — minutes
+          <select
+            name="fin_minute"
+            defaultValue="00"
+            className="mt-1 w-full rounded-xl border border-bronze/30 bg-forest-deep/60 px-3 py-2 text-cream"
+          >
+            <option value="0">00</option>
+            <option value="30">30</option>
+          </select>
+        </label>
+      </div>
       <label className="text-sm text-cream/70">
         Format
         <select
