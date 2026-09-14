@@ -59,9 +59,45 @@ export default function ReservationForm({
     }
   }
 
-  const grouped = useMemo(() => {
-    return creneaux;
+  const [mois, setMois] = useState(() => {
+    const first = creneaux[0] ? new Date(creneaux[0].debut_at) : new Date();
+    return new Date(first.getFullYear(), first.getMonth(), 1);
+  });
+  const [jourActif, setJourActif] = useState<string | null>(null);
+
+  const jourKey = (iso: string) =>
+    new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Europe/Paris",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).format(new Date(iso));
+
+  const joursDispo = useMemo(() => {
+    const s = new Set<string>();
+    creneaux.forEach((c) => s.add(jourKey(c.debut_at)));
+    return s;
   }, [creneaux]);
+
+  const grouped = useMemo(() => {
+    if (!jourActif) return creneaux;
+    return creneaux.filter((c) => jourKey(c.debut_at) === jourActif);
+  }, [creneaux, jourActif]);
+
+  const cells = useMemo(() => {
+    const start = new Date(mois.getFullYear(), mois.getMonth(), 1);
+    const startPad = (start.getDay() + 6) % 7; // lundi = 0
+    const daysInMonth = new Date(mois.getFullYear(), mois.getMonth() + 1, 0).getDate();
+    const list: { key: string; day: number | null; dispo: boolean }[] = [];
+    for (let i = 0; i < startPad; i++) list.push({ key: `e-${i}`, day: null, dispo: false });
+    for (let d = 1; d <= daysInMonth; d++) {
+      const key = `${mois.getFullYear()}-${String(mois.getMonth() + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+      list.push({ key, day: d, dispo: joursDispo.has(key) });
+    }
+    return list;
+  }, [mois, joursDispo]);
+
+  const moisLabel = mois.toLocaleDateString("fr-FR", { month: "long", year: "numeric" });
 
   async function onSubmit(formData: FormData) {
     setStatus("Enregistrement…");
@@ -131,13 +167,67 @@ export default function ReservationForm({
         </div>
       )}
 
-      <div className="glass-card space-y-3 rounded-2xl p-6">
+      <div className="glass-card space-y-4 rounded-2xl p-6">
         <p className="text-sm text-cream/70">Créneau</p>
-        {grouped.length === 0 && (
+        {creneaux.length === 0 && (
           <p className="text-sm text-cream/50">
             Aucun créneau libre pour ce format. Revenez plus tard, ou écrivez
             via la page Contact.
           </p>
+        )}
+        {creneaux.length > 0 && (
+          <>
+            <div className="flex items-center justify-between">
+              <button
+                type="button"
+                onClick={() => setMois(new Date(mois.getFullYear(), mois.getMonth() - 1, 1))}
+                className="rounded-full border border-bronze/30 px-3 py-1 text-xs text-cream/70"
+              >
+                ←
+              </button>
+              <p className="font-serif text-lg capitalize text-cream">{moisLabel}</p>
+              <button
+                type="button"
+                onClick={() => setMois(new Date(mois.getFullYear(), mois.getMonth() + 1, 1))}
+                className="rounded-full border border-bronze/30 px-3 py-1 text-xs text-cream/70"
+              >
+                →
+              </button>
+            </div>
+            <div className="grid grid-cols-7 gap-1 text-center text-[11px] text-cream/45">
+              {["L", "M", "M", "J", "V", "S", "D"].map((d, i) => (
+                <span key={`${d}-${i}`}>{d}</span>
+              ))}
+              {cells.map((c) => (
+                <button
+                  key={c.key}
+                  type="button"
+                  disabled={!c.day || !c.dispo}
+                  onClick={() => setJourActif(c.dispo ? c.key : null)}
+                  className={[
+                    "aspect-square rounded-lg text-sm",
+                    !c.day ? "opacity-0" : "",
+                    c.dispo
+                      ? jourActif === c.key
+                        ? "bg-bronze text-forest-deep font-semibold"
+                        : "bg-bronze/35 text-glow font-semibold hover:bg-bronze/55"
+                      : "text-cream/30",
+                  ].join(" ")}
+                >
+                  {c.day || ""}
+                </button>
+              ))}
+            </div>
+            <p className="text-xs text-cream/45">
+              Les jours en surbrillance ont au moins un créneau libre.
+              {jourActif ? " Filtre actif — cliquez un autre jour, ou " : ""}
+              {jourActif && (
+                <button type="button" className="underline" onClick={() => setJourActif(null)}>
+                  voir tous les créneaux
+                </button>
+              )}
+            </p>
+          </>
         )}
         <div className="flex flex-col gap-2">
           {grouped.map((c) => (
@@ -152,6 +242,9 @@ export default function ReservationForm({
                 : ""}
             </label>
           ))}
+          {creneaux.length > 0 && grouped.length === 0 && (
+            <p className="text-sm text-cream/50">Aucun créneau ce jour-là.</p>
+          )}
         </div>
       </div>
 

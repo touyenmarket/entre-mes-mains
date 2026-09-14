@@ -30,6 +30,8 @@ export async function envoyerEmail(opts: {
   const from =
     process.env.EMAIL_FROM ||
     `Entre mes mains <${SITE.email}>`;
+  // Expéditeur factures / confirmations : entremesmains28@gmail.com
+  // (priorité à EMAIL_FROM sur Vercel ; fallback SITE.email)
 
   if (!emailActif()) {
     console.log("[email:log]", {

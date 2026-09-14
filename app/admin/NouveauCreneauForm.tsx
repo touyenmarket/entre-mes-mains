@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { creerCreneau } from "./actions";
 import type { Prestation } from "@/lib/supabase/types";
+import { labelPrestation } from "@/lib/labels";
 
 export default function NouveauCreneauForm({
   prestations,
@@ -100,7 +101,7 @@ export default function NouveauCreneauForm({
           <option value="">Toutes les prestations de ce format</option>
           {prestations.map((p) => (
             <option key={p.id} value={p.id}>
-              {p.label} ({p.format})
+              {labelPrestation(p.label)} ({p.format})
             </option>
           ))}
         </select>

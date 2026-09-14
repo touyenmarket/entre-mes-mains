@@ -44,6 +44,67 @@ export async function creerCreneau(formData: FormData) {
   return { ok: true };
 }
 
+export async function modifierCreneau(formData: FormData) {
+  const gate = await requireAdmin();
+  if (!gate.ok) return { error: "Accès refusé." };
+
+  const id = String(formData.get("id") || "");
+  const date = String(formData.get("date") || "");
+  const heure = Number(formData.get("heure") || 10);
+  const minute = Number(formData.get("minute") || 0);
+  const dureeMin = Number(formData.get("duree") || 60);
+  const format = String(formData.get("format") || "visio") as FormatPrestation;
+  const capacite = Number(formData.get("capacite") || 1);
+  const note = String(formData.get("note") || "").trim();
+
+  if (!id || !date) return { error: "Créneau incomplet." };
+
+  const debutIso = parisLocalToIso(date, heure, minute);
+  const debut = new Date(debutIso);
+  if (Number.isNaN(debut.getTime())) return { error: "Date invalide." };
+  const fin = new Date(debut.getTime() + dureeMin * 60 * 1000);
+
+  const admin = createAdminClient();
+  const { error } = await admin
+    .from("creneaux")
+    .update({
+      debut_at: debut.toISOString(),
+      fin_at: fin.toISOString(),
+      format,
+      capacite: Math.max(1, capacite),
+      note_admin: note || null,
+    })
+    .eq("id", id);
+
+  if (error) return { error: error.message };
+  revalidatePath("/admin");
+  revalidatePath("/reserver");
+  return { ok: true };
+}
+
+export async function supprimerCreneau(id: string) {
+  const gate = await requireAdmin();
+  if (!gate.ok) return { error: "Accès refusé." };
+
+  const admin = createAdminClient();
+  const { data: resas } = await admin
+    .from("reservations")
+    .select("id")
+    .eq("creneau_id", id)
+    .neq("statut", "annulee")
+    .limit(1);
+
+  if (resas && resas.length > 0) {
+    return { error: "Impossible : une réservation est liée à ce créneau. Annulez-la d’abord ou bloquez le créneau." };
+  }
+
+  const { error } = await admin.from("creneaux").delete().eq("id", id);
+  if (error) return { error: error.message };
+  revalidatePath("/admin");
+  revalidatePath("/reserver");
+  return { ok: true };
+}
+
 export async function changerStatutCreneau(id: string, statut: StatutCreneau) {
   const gate = await requireAdmin();
   if (!gate.ok) return { error: "Accès refusé." };

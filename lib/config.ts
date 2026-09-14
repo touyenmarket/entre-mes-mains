@@ -7,7 +7,7 @@ export const SITE = {
   tagline: "Naturopathie & massage bien-être",
   description:
     "Consultations de naturopathie en visio, massages bien-être à domicile et atelier de langue des signes pour bébé.",
-  email: "Entremesmains28@gmail.com",
+  email: "entremesmains28@gmail.com",
   city: "Sancheville (28)",
   region: "Centre-Val de Loire",
   /** Adresse professionnelle (pages légales + contact). */

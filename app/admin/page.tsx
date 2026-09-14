@@ -2,37 +2,11 @@ import { redirect } from "next/navigation";
 import { Container, Badge, ButtonLink } from "@/components/ui";
 import { requireAdmin } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { formatDateHeure } from "@/lib/dates";
 import NouveauCreneauForm from "./NouveauCreneauForm";
-import { changerStatutCreneau } from "./actions";
-import type { Prestation, StatutCreneau } from "@/lib/supabase/types";
+import CreneauAdminRow from "./CreneauAdminRow";
+import type { Prestation, Creneau } from "@/lib/supabase/types";
 
 export const metadata = { title: "Calendrier admin" };
-
-async function BoutonStatut({
-  id,
-  statut,
-  label,
-}: {
-  id: string;
-  statut: StatutCreneau;
-  label: string;
-}) {
-  async function action() {
-    "use server";
-    await changerStatutCreneau(id, statut);
-  }
-  return (
-    <form action={action}>
-      <button
-        type="submit"
-        className="rounded-full border border-bronze/40 px-3 py-1 text-xs text-cream/80 hover:text-glow"
-      >
-        {label}
-      </button>
-    </form>
-  );
-}
 
 export default async function AdminPage() {
   const gate = await requireAdmin();
@@ -78,26 +52,7 @@ export default async function AdminPage() {
           <p className="text-sm text-cream/50">Aucun créneau pour le moment.</p>
         )}
         {(creneaux || []).map((c) => (
-          <div
-            key={c.id}
-            className="glass-card flex flex-col gap-3 rounded-2xl p-4 sm:flex-row sm:items-center sm:justify-between"
-          >
-            <div>
-              <p className="text-cream">{formatDateHeure(c.debut_at)}</p>
-              <p className="text-sm text-cream/50">
-                {c.format} · {c.places_prises}/{c.capacite} · {c.statut}
-                {c.note_admin ? ` · ${c.note_admin}` : ""}
-              </p>
-            </div>
-            <div className="flex gap-2">
-              {c.statut !== "bloque" && (
-                <BoutonStatut id={c.id} statut="bloque" label="Bloquer" />
-              )}
-              {c.statut !== "libre" && (
-                <BoutonStatut id={c.id} statut="libre" label="Libérer" />
-              )}
-            </div>
-          </div>
+          <CreneauAdminRow key={c.id} creneau={c as Creneau} />
         ))}
       </div>
 
