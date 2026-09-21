@@ -71,6 +71,9 @@ export default function Home() {
           <Badge>Naturopathie & massage bien-être</Badge>
           <h1 className="mt-6 max-w-3xl font-serif text-4xl font-medium leading-[1.15] text-cream sm:text-6xl">
             Prendre soin de soi, en douceur et en confiance
+            <span className="mt-3 block font-sans text-base font-medium tracking-[0.12em] text-bronze sm:text-lg">
+              au service de la femme
+            </span>
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-cream/70 sm:text-lg">
             Consultations de naturopathie en visio, massages bien-être à
@@ -125,7 +128,10 @@ export default function Home() {
               />
               <div className="p-7">
                 <Leaf size={24} className="text-sage" />
-                <h3 className="mt-4 font-serif text-2xl text-cream">
+                <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-bronze">
+                  au service de la femme
+                </p>
+                <h3 className="mt-2 font-serif text-2xl text-cream">
                   Naturopathie — en visio
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-cream/60">

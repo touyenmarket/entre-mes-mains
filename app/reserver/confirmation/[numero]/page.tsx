@@ -84,7 +84,14 @@ export default async function ConfirmationPage({
         </p>
       )}
 
-      {!paye && paypal && (
+      {data.paiement_provider === "especes" && !paye && (
+        <p className="mx-auto mt-6 max-w-md text-sm text-cream/70">
+          Paiement en espèces choisi. Un email de confirmation vous a été
+          envoyé. Le règlement se fera le jour du rendez-vous.
+        </p>
+      )}
+
+      {!paye && paypal && data.paiement_provider !== "especes" && (
         <form action={lancerPaiementPaypal} className="mt-8">
           <input type="hidden" name="numero" value={data.numero} />
           <button

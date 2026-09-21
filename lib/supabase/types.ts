@@ -13,7 +13,7 @@ export type StatutReservation =
   | "terminee"
   | "annulee";
 export type StatutPaiement = "non_paye" | "paye" | "rembourse";
-export type ProviderPaiement = "paypal" | "wero" | "stripe" | "demo";
+export type ProviderPaiement = "paypal" | "wero" | "stripe" | "demo" | "especes";
 
 export interface Profile {
   id: string;

@@ -56,7 +56,7 @@ const BLOC_BEBE: Bloc = {
     "La séance est adaptée au rythme et aux besoins de bébé.",
     "Par mesure de précaution, le massage sera reporté en cas de maladie, fièvre, infection, état inhabituel de bébé ou vaccination récente.",
     "En présence d’un problème de santé particulier ou en cas de doute, l’avis d’un professionnel de santé pourra être demandé avant la séance.",
-    "Le parent s’engage à signaler toute information concernant la santé de son enfant susceptible de nécessiter une précaution ou de constituer une contre-indication au massage.",
+    "Le(s) parent(s) s’engage(nt) à signaler toute information concernant la santé de son enfant susceptible de nécessiter une précaution ou de constituer une contre-indication au massage.",
   ],
 };
 
@@ -117,7 +117,7 @@ const MASSAGES: Massage[] = [
     description: [
       "Le massage libère les hormones du bien-être, favorise l’éveil des sens, le calme, l’endormissement et le soulagement. C’est se connecter l’un à l’autre et être à l’écoute de son bébé.",
       "Thèmes au choix : pour bien dormir ; pour l’éveil moteur ; spécifique maux de ventre ; libérer les émotions.",
-      "La séance comprend un temps d’échange avec le parent, un temps autour du thème choisi, l’apprentissage et la pratique du massage, puis des postures de baby yoga en fin de séance.",
+      "La séance comprend un temps d’échange avec le(s) parent(s), un temps autour du thème choisi, l’apprentissage et la pratique du massage, puis des postures de baby yoga en fin de séance.",
       "Lors de l’atelier, je réalise les gestes de massage sur un poupon de démonstration. À aucun moment je ne masse votre bébé. Vous reproduisez vous-même les mouvements sur votre enfant, à son rythme, en suivant mes indications.",
     ],
     precautions: [BLOC_BEBE],
@@ -133,7 +133,7 @@ const MASSAGES: Massage[] = [
     description: [
       "Le massage bébé est un rituel précieux qui crée du lien, apaise, soutient le bien physique et émotionnel de votre enfant à chaque étape.",
       "Le forfait permet de suivre l’évolution de bébé, d’adapter les massages à ses besoins et d’installer un rituel durable. Soit 70 € la séance.",
-      "Chaque séance : échange avec le parent, thème choisi, apprentissage du massage, postures de baby yoga.",
+      "Chaque séance : échange avec le(s) parent(s), thème choisi, apprentissage du massage, postures de baby yoga.",
       "Lors de l’atelier, je réalise les gestes de massage sur un poupon de démonstration. À aucun moment je ne masse votre bébé. Vous reproduisez vous-même les mouvements sur votre enfant, à son rythme, en suivant mes indications.",
     ],
     precautions: [BLOC_BEBE],

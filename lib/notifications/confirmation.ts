@@ -6,6 +6,54 @@ import { genererPdfFacture } from "@/lib/factures/pdf";
 import { formatDateHeure, euros } from "@/lib/dates";
 import { SITE } from "@/lib/config";
 
+export async function envoyerEmailReservation(reservationId: string) {
+  const admin = createAdminClient();
+  const { data: reservation } = await admin
+    .from("reservations")
+    .select(
+      "*, prestations(label, format), creneaux(debut_at), profiles(prenom, nom, email)"
+    )
+    .eq("id", reservationId)
+    .maybeSingle();
+  if (!reservation) return;
+
+  const pre = reservation.prestations as { label?: string } | null;
+  const cr = reservation.creneaux as { debut_at?: string } | null;
+  const dest = reservation.profiles as { prenom?: string; email?: string } | null;
+  if (!dest?.email) return;
+
+  const quand = cr?.debut_at ? formatDateHeure(cr.debut_at) : "";
+  const mode =
+    reservation.paiement_provider === "especes"
+      ? "Paiement choisi : en espèces, le jour du rendez-vous."
+      : "Paiement en ligne à l’étape suivante (ou plus tard depuis votre espace).";
+
+  await envoyerEmail({
+    to: dest.email,
+    subject: `Réservation ${reservation.numero} enregistrée — ${SITE.name}`,
+    text: [
+      `Bonjour ${dest.prenom || ""},`,
+      "",
+      `Votre réservation est enregistrée : ${pre?.label || ""} — ${quand}.`,
+      `Montant : ${euros(reservation.total_cents)}.`,
+      mode,
+      "",
+      "Un second email partira au règlement (avec la facture si paiement en ligne).",
+      "",
+      SITE.name,
+      SITE.email,
+    ].join("\n"),
+    html: `
+      <p>Bonjour ${dest.prenom || ""},</p>
+      <p>Votre réservation est enregistrée :</p>
+      <p><strong>${pre?.label || ""}</strong><br/>${quand}<br/>${euros(reservation.total_cents)}</p>
+      <p>${mode}</p>
+      <p>Un second email partira au règlement (avec la facture si paiement en ligne).</p>
+      <p>${SITE.name}<br/>${SITE.email}</p>
+    `,
+  });
+}
+
 export async function finaliserApresPaiement(reservationId: string) {
   const admin = createAdminClient();
   const visio = await assurerLienVisio(reservationId);

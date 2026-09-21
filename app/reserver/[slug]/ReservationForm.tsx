@@ -248,6 +248,18 @@ export default function ReservationForm({
         </div>
       </div>
 
+      <div className="glass-card space-y-3 rounded-2xl p-6">
+        <p className="text-sm text-cream/70">Mode de paiement</p>
+        <label className="flex cursor-pointer items-start gap-3 text-sm text-cream/80">
+          <input type="radio" name="mode_paiement" value="en_ligne" defaultChecked className="mt-1" />
+          <span>Paiement en ligne (PayPal)</span>
+        </label>
+        <label className="flex cursor-pointer items-start gap-3 text-sm text-cream/80">
+          <input type="radio" name="mode_paiement" value="especes" className="mt-1" />
+          <span>Paiement en espèces le jour du rendez-vous</span>
+        </label>
+      </div>
+
       <label className="flex items-start gap-3 text-sm text-cream/65">
         <input type="checkbox" name="consentement" required className="mt-1" />
         <span>

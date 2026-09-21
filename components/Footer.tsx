@@ -58,7 +58,7 @@ export default function Footer() {
 
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-bronze">
-            Activités
+            Activités — au service de la femme
           </p>
           <ul className="mt-4 space-y-2.5">
             {activites.map((l) => (

@@ -5,6 +5,7 @@ import { getCurrentProfile } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { supplementKm } from "@/lib/tarification";
 import type { Prestation } from "@/lib/supabase/types";
+import { envoyerEmailReservation } from "@/lib/notifications/confirmation";
 
 export async function creerReservation(formData: FormData) {
   const { user, profile } = await getCurrentProfile();
@@ -20,6 +21,8 @@ export async function creerReservation(formData: FormData) {
   const prenom = String(formData.get("prenom") || profile?.prenom || "").trim();
   const nom = String(formData.get("nom") || profile?.nom || "").trim();
   const telephone = String(formData.get("telephone") || profile?.telephone || "").trim();
+  const modePaiement = String(formData.get("mode_paiement") || "en_ligne");
+  const especes = modePaiement === "especes";
 
   if (!prestationId || !creneauId) {
     return { error: "Choisissez une prestation et un créneau." };
@@ -89,9 +92,9 @@ export async function creerReservation(formData: FormData) {
         ? { libelle: adresse, distance_km: distanceKm }
         : null,
       paiement_statut: "non_paye",
-      paiement_provider: "demo",
+      paiement_provider: especes ? "especes" : "paypal",
     })
-    .select("numero")
+    .select("id, numero")
     .single();
 
   if (rErr) return { error: rErr.message };
@@ -110,6 +113,10 @@ export async function creerReservation(formData: FormData) {
       consentement_rgpd_at: new Date().toISOString(),
     })
     .eq("id", user.id);
+
+  if (reservation?.id) {
+    await envoyerEmailReservation(reservation.id);
+  }
 
   redirect(`/reserver/confirmation/${reservation.numero}`);
 }
