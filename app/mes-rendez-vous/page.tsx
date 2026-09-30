@@ -64,8 +64,14 @@ export default async function MesRdvPage() {
         </h1>
         <p className="mt-3 text-sm text-cream/55">{user.email}</p>
         {profile?.role === "admin" && (
-          <div className="mt-4">
-            <ButtonLink href="/admin">Ouvrir le calendrier admin</ButtonLink>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <ButtonLink href="/admin">Calendrier</ButtonLink>
+            <ButtonLink href="/admin/documents" variant="ghost">
+              Devis & factures
+            </ButtonLink>
+            <ButtonLink href="/admin/compta" variant="ghost">
+              Comptabilité
+            </ButtonLink>
           </div>
         )}
 

@@ -1,4 +1,9 @@
 import { getSiteUrl } from "@/lib/site-url";
+import { SITE } from "@/lib/config";
+
+function merchantEmail() {
+  return process.env.PAYPAL_MERCHANT_EMAIL || SITE.paypalEmail;
+}
 
 function paypalConfigured() {
   return Boolean(
@@ -61,6 +66,7 @@ export async function creerCommandePaypal(opts: {
           description: opts.label.slice(0, 127),
           custom_id: opts.numero,
           amount: { currency_code: "EUR", value: amount },
+          payee: { email_address: merchantEmail() },
         },
       ],
       application_context: {

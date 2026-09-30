@@ -36,6 +36,14 @@ export default async function AdminPage() {
     <Container className="py-14 sm:py-20">
       <Badge>Back-office</Badge>
       <h1 className="mt-5 font-serif text-4xl text-cream">Calendrier</h1>
+      <div className="mt-4 flex flex-wrap gap-3">
+        <ButtonLink href="/admin/documents" variant="ghost">
+          Devis & factures
+        </ButtonLink>
+        <ButtonLink href="/admin/compta" variant="ghost">
+          Comptabilité
+        </ButtonLink>
+      </div>
       <p className="mt-3 max-w-xl text-[15px] text-cream/65">
         Ajoute tes disponibilités. Les patients ne voient que les créneaux
         libres du format correspondant.

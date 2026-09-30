@@ -6,16 +6,24 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { NAV_LINKS } from "@/lib/config";
+import { OFFER_LINKS, TOOL_LINKS } from "@/lib/config";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
-  const linkClass = (href: string) =>
+  const offerClass = (href: string) =>
     cn(
-      "text-sm transition-colors",
-      pathname === href ? "text-glow" : "text-cream/70 hover:text-cream",
+      "font-serif text-[17px] font-semibold tracking-wide transition-colors",
+      pathname === href
+        ? "text-glow"
+        : "text-cream hover:text-glow",
+    );
+
+  const toolClass = (href: string) =>
+    cn(
+      "text-[12px] uppercase tracking-[0.14em] transition-colors",
+      pathname === href ? "text-cream/80" : "text-cream/45 hover:text-cream/75",
     );
 
   return (
@@ -36,12 +44,22 @@ export default function Header() {
           />
         </Link>
 
-        <nav className="hidden items-center gap-7 md:flex">
-          {NAV_LINKS.map((l) => (
-            <Link key={l.href} href={l.href} className={linkClass(l.href)}>
-              {l.label}
-            </Link>
-          ))}
+        <nav className="hidden items-center gap-8 md:flex">
+          <div className="flex items-center gap-6">
+            {OFFER_LINKS.map((l) => (
+              <Link key={l.href} href={l.href} className={offerClass(l.href)}>
+                {l.label}
+              </Link>
+            ))}
+          </div>
+          <span className="h-6 w-px bg-bronze/25" aria-hidden />
+          <div className="flex items-center gap-5">
+            {TOOL_LINKS.map((l) => (
+              <Link key={l.href} href={l.href} className={toolClass(l.href)}>
+                {l.label}
+              </Link>
+            ))}
+          </div>
           <Link
             href="/reserver"
             className="rounded-full bg-bronze px-5 py-2 text-sm font-semibold text-forest-deep transition-colors hover:bg-glow"
@@ -89,13 +107,31 @@ export default function Header() {
 
       {open && (
         <nav className="border-t border-bronze/15 bg-forest-deep/95 px-5 pb-6 pt-3 md:hidden">
-          <div className="flex flex-col gap-4">
-            {NAV_LINKS.map((l) => (
+          <p className="mb-2 text-[10px] uppercase tracking-[0.2em] text-bronze">
+            Les offres
+          </p>
+          <div className="flex flex-col gap-3">
+            {OFFER_LINKS.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className={linkClass(l.href)}
+                className={offerClass(l.href)}
+              >
+                {l.label}
+              </Link>
+            ))}
+          </div>
+          <p className="mb-2 mt-5 text-[10px] uppercase tracking-[0.2em] text-bronze/70">
+            Espace
+          </p>
+          <div className="flex flex-col gap-3">
+            {TOOL_LINKS.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                onClick={() => setOpen(false)}
+                className={toolClass(l.href)}
               >
                 {l.label}
               </Link>
