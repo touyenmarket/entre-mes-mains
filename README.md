@@ -15,7 +15,8 @@ pour bébé, réservation en ligne et paiement sécurisé.
 
 ```bash
 npm install
-npm run dev   # http://localhost:3000 (bind 0.0.0.0 pour l'aperçu)
+npm run dev   # http://localhost:3000
+npm test      # km, dates, textes, numéros devis
 ```
 
 Copier `.env.example` vers `.env.local` et renseigner les clés au fur et à mesure.
@@ -43,10 +44,11 @@ docs/           documents du projet (architecture…)
 | 6 | Visio auto (naturo) + emails Brevo (réservation + paiement + facture) | ✅ livré |
 | 7 | Factures PDF auto + devis/factures manuels + journal comptable + export CSV | ✅ livré |
 | 8 | Chat Tawk.to + pages légales + print (hors repo) | ✅ livré |
-| 9 | Recette complète + tests automatisés | à venir |
+| 9 | Recette complète + tests automatisés | ✅ livré — `docs/recette.md` + `npm test` |
 
 ## Documents
 
 - Architecture validée : [`docs/architecture.md`](../docs/architecture.md)
 - **Guide hébergement** : [`docs/guide-hebergement-github-supabase-vercel.md`](../docs/guide-hebergement-github-supabase-vercel.md)
 - Compte rendu : [`docs/compte-rendu.md`](../docs/compte-rendu.md)
+- **Recette** : [`docs/recette.md`](docs/recette.md)
