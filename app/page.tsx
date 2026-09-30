@@ -23,6 +23,7 @@ import {
 } from "@/components/ui";
 import { SITE } from "@/lib/config";
 import DistancePreview from "@/components/DistancePreview";
+import { chargerTextes, t } from "@/lib/textes";
 
 const etapes = [
   {
@@ -51,7 +52,8 @@ const etapes = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const tx = await chargerTextes();
   return (
     <>
       {/* ---------- HERO ---------- */}
@@ -68,24 +70,22 @@ export default function Home() {
         <HaloStrong className="left-1/2 top-1/3 h-[480px] w-[760px] -translate-x-1/2" />
 
         <Container className="relative flex flex-col items-center py-24 text-center sm:py-32">
-          <Badge>Naturopathie & massage bien-être</Badge>
+          <Badge>{t(tx, "accueil.badge")}</Badge>
           <h1 className="mt-6 max-w-3xl font-serif text-4xl font-medium leading-[1.15] text-cream sm:text-6xl">
-            Prendre soin de soi, en douceur et en confiance
+            {t(tx, "accueil.h1")}
             <span className="mt-3 block font-sans text-base font-medium tracking-[0.12em] text-bronze sm:text-lg">
-              au service de la femme
+              {t(tx, "accueil.sous_titre")}
             </span>
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-cream/70 sm:text-lg">
-            Consultations de naturopathie en visio, massages bien-être à
-            domicile pour vous et pour bébé, des ateliers de langue des
-            signes française. Une parenthèse de douceur, chez vous.
+            {t(tx, "accueil.intro")}
           </p>
           <div className="mt-9 flex flex-col gap-4 sm:flex-row">
             <ButtonLink href="/naturopathie">
-              Réserver une consultation
+              {t(tx, "accueil.cta1")}
             </ButtonLink>
             <ButtonLink href="/massages" variant="ghost">
-              Découvrir les massages
+              {t(tx, "accueil.cta2")}
             </ButtonLink>
           </div>
           <div className="mt-11 flex flex-wrap items-center justify-center gap-x-7 gap-y-2 text-xs text-cream/55">
@@ -110,9 +110,9 @@ export default function Home() {
         <Container>
           <SectionTitle
             center
-            eyebrow="Deux univers"
-            title="Une même attention, deux façons de prendre soin de vous"
-            subtitle="La naturopathie soutient votre vitalité de l'intérieur ; le massage relâche, enveloppe et accompagne. Deux pratiques réunies dans un seul espace, sans les confondre."
+            eyebrow={t(tx, "accueil.univers_eyebrow")}
+            title={t(tx, "accueil.univers_titre")}
+            subtitle={t(tx, "accueil.univers_sous")}
           />
           <div className="mt-12 grid gap-6 md:grid-cols-2">
             <Link

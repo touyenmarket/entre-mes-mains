@@ -17,6 +17,7 @@ import {
   Price,
   HaloStrong,
 } from "@/components/ui";
+import { chargerTextes, t } from "@/lib/textes";
 
 const formats = [
   {
@@ -84,7 +85,8 @@ const formules = [
   },
 ];
 
-export default function AtelierLsfPage() {
+export default async function AtelierLsfPage() {
+  const tx = await chargerTextes();
   return (
     <>
       {/* HERO — main de bébé en fond */}
@@ -100,15 +102,10 @@ export default function AtelierLsfPage() {
         <HaloStrong className="left-1/2 top-1/3 h-[400px] w-[640px] -translate-x-1/2" />
         <Container className="relative flex flex-col items-center py-24 text-center sm:py-28">
           <h1 className="mt-6 max-w-2xl font-serif text-4xl font-medium leading-[1.15] text-cream sm:text-5xl">
-            Offrir à bébé ses premiers mots, avec les mains
+            {t(tx, "lsf.h1")}
           </h1>
           <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-cream/70">
-            Bien avant la parole, votre bébé a déjà beaucoup à exprimer : une
-            faim, une envie de câlin, une fatigue… La langue des signes
-            française lui donne un moyen simple et naturel de se faire
-            comprendre. Au fil de l&apos;atelier, vous apprendrez les signes
-            essentiels du quotidien de votre bébé et la manière de les
-            intégrer en douceur à vos échanges, à votre rythme.
+            {t(tx, "lsf.intro")}
           </p>
           <div className="mt-8">
             <ButtonLink href="/reserver?type=atelier">Réserver l&apos;atelier</ButtonLink>

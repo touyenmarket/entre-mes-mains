@@ -11,6 +11,7 @@ import {
 import DistancePreview from "@/components/DistancePreview";
 import MassageAccordion from "@/components/MassageAccordion";
 import { ZONE_FRANCHE_KM } from "@/lib/tarification";
+import { chargerTextes, t } from "@/lib/textes";
 
 const pratique = [
   {
@@ -32,7 +33,8 @@ const pratique = [
   },
 ];
 
-export default function MassagesPage() {
+export default async function MassagesPage() {
+  const tx = await chargerTextes();
   return (
     <>
       {/* HERO */}
@@ -47,16 +49,15 @@ export default function MassagesPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-forest-deep/70 via-forest-deep/60 to-forest-deep" />
         <HaloStrong className="left-1/2 top-1/3 h-[400px] w-[640px] -translate-x-1/2" />
         <Container className="relative flex flex-col items-center py-24 text-center sm:py-28">
-          <Badge>Massages à domicile</Badge>
+          <Badge>{t(tx, "massages.badge")}</Badge>
           <h1 className="mt-6 max-w-2xl font-serif text-4xl font-medium leading-[1.15] text-cream sm:text-5xl">
-            Le bien-être, chez vous
+            {t(tx, "massages.h1")}
           </h1>
           <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-cream/70">
-            Je me déplace à votre domicile avec tout le matériel : massages
-            prénatal, postnatal et bébé, au rythme de chacun.
+            {t(tx, "massages.intro")}
           </p>
           <div className="mt-8">
-            <ButtonLink href="/reserver?type=massage">Réserver un massage</ButtonLink>
+            <ButtonLink href="/reserver?type=massage">{t(tx, "massages.cta")}</ButtonLink>
           </div>
           <p className="mt-7 flex items-center justify-center gap-2 text-xs font-medium text-sage-light">
             <Image

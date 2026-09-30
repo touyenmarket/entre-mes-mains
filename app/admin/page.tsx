@@ -43,6 +43,9 @@ export default async function AdminPage() {
         <ButtonLink href="/admin/compta" variant="ghost">
           Comptabilité
         </ButtonLink>
+        <ButtonLink href="/admin/textes" variant="ghost">
+          Textes du site
+        </ButtonLink>
       </div>
       <p className="mt-3 max-w-xl text-[15px] text-cream/65">
         Ajoute tes disponibilités. Les patients ne voient que les créneaux

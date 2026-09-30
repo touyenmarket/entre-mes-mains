@@ -177,24 +177,25 @@ export default function ReservationForm({
         )}
         {creneaux.length > 0 && (
           <>
+            <div className="mx-auto w-full max-w-[260px]">
             <div className="flex items-center justify-between">
               <button
                 type="button"
                 onClick={() => setMois(new Date(mois.getFullYear(), mois.getMonth() - 1, 1))}
-                className="rounded-full border border-bronze/30 px-3 py-1 text-xs text-cream/70"
+                className="rounded-full border border-bronze/30 px-2.5 py-0.5 text-xs text-cream/70"
               >
                 ←
               </button>
-              <p className="font-serif text-lg capitalize text-cream">{moisLabel}</p>
+              <p className="font-serif text-base capitalize text-cream">{moisLabel}</p>
               <button
                 type="button"
                 onClick={() => setMois(new Date(mois.getFullYear(), mois.getMonth() + 1, 1))}
-                className="rounded-full border border-bronze/30 px-3 py-1 text-xs text-cream/70"
+                className="rounded-full border border-bronze/30 px-2.5 py-0.5 text-xs text-cream/70"
               >
                 →
               </button>
             </div>
-            <div className="grid grid-cols-7 gap-1 text-center text-[11px] text-cream/45">
+            <div className="mt-2 grid grid-cols-7 gap-0.5 text-center text-[10px] text-cream/45">
               {["L", "M", "M", "J", "V", "S", "D"].map((d, i) => (
                 <span key={`${d}-${i}`}>{d}</span>
               ))}
@@ -205,7 +206,7 @@ export default function ReservationForm({
                   disabled={!c.day || !c.dispo}
                   onClick={() => setJourActif(c.dispo ? c.key : null)}
                   className={[
-                    "aspect-square rounded-lg text-sm",
+                    "h-8 w-8 justify-self-center rounded-md text-[12px]",
                     !c.day ? "opacity-0" : "",
                     c.dispo
                       ? jourActif === c.key
@@ -217,6 +218,7 @@ export default function ReservationForm({
                   {c.day || ""}
                 </button>
               ))}
+            </div>
             </div>
             <p className="text-xs text-cream/45">
               Les jours en surbrillance ont au moins un créneau libre.

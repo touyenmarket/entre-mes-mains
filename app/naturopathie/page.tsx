@@ -15,6 +15,7 @@ import {
   Price,
   HaloStrong,
 } from "@/components/ui";
+import { chargerTextes, t } from "@/lib/textes";
 
 const approche = [
   {
@@ -74,7 +75,8 @@ const tarifs = [
   },
 ];
 
-export default function NaturopathiePage() {
+export default async function NaturopathiePage() {
+  const tx = await chargerTextes();
   return (
     <>
       {/* HERO */}
@@ -89,19 +91,15 @@ export default function NaturopathiePage() {
         <div className="absolute inset-0 bg-gradient-to-b from-forest-deep/70 via-forest-deep/60 to-forest-deep" />
         <HaloStrong className="left-1/2 top-1/3 h-[400px] w-[640px] -translate-x-1/2" />
         <Container className="relative flex flex-col items-center py-24 text-center sm:py-28">
-          <Badge>Consultations en visio</Badge>
+          <Badge>{t(tx, "naturo.badge")}</Badge>
           <h1 className="mt-6 max-w-2xl font-serif text-4xl font-medium leading-[1.15] text-cream sm:text-5xl">
-            La naturopathie, en visio
+            {t(tx, "naturo.h1")}
           </h1>
           <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-cream/70">
-            La naturopathie vise à soutenir votre vitalité et préserver votre
-            équilibre grâce à des moyens naturels, en considérant la personne
-            dans sa globalité. En visio, profitez d&apos;un accompagnement
-            personnalisé, où que vous soyez, dans le confort de votre
-            environnement.
+            {t(tx, "naturo.intro")}
           </p>
           <div className="mt-8">
-            <ButtonLink href="/reserver?type=naturo">Réserver une consultation</ButtonLink>
+            <ButtonLink href="/reserver?type=naturo">{t(tx, "naturo.cta")}</ButtonLink>
           </div>
           <p className="mt-7 flex items-center justify-center gap-2 text-xs font-medium text-sage-light">
             <Image
@@ -195,16 +193,16 @@ export default function NaturopathiePage() {
             subtitle="Paiement intégral en ligne à la réservation."
           />
           <div className="mx-auto mt-12 grid max-w-3xl gap-5 sm:grid-cols-2">
-            {tarifs.map((t) => (
-              <Card key={t.titre} className="flex flex-col justify-between">
+            {tarifs.map((tarif) => (
+              <Card key={tarif.titre} className="flex flex-col justify-between">
                 <div>
-                  <h3 className="font-serif text-xl text-cream">{t.titre}</h3>
+                  <h3 className="font-serif text-xl text-cream">{tarif.titre}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-cream/55">
-                    {t.detail}
+                    {tarif.detail}
                   </p>
                 </div>
                 <div className="mt-6 flex items-center justify-between">
-                  <Price amount={t.prix} />
+                  <Price amount={tarif.prix} />
                   <CalendarDays size={18} className="text-bronze/60" />
                 </div>
               </Card>
@@ -224,7 +222,7 @@ export default function NaturopathiePage() {
             Faire le point sur votre vitalité
           </h2>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-            <ButtonLink href="/reserver?type=naturo">Réserver une consultation</ButtonLink>
+            <ButtonLink href="/reserver?type=naturo">{t(tx, "naturo.cta")}</ButtonLink>
             <ButtonLink href="/contact" variant="ghost">
               Poser une question
             </ButtonLink>
