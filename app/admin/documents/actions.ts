@@ -31,6 +31,8 @@ export async function creerDocumentManuel(formData: FormData) {
   const tvaTaux = 0;
   const paiement = String(formData.get("paiement_mention") || "").trim();
   const envoyer = String(formData.get("envoyer") || "") === "oui";
+  const sauverModele = String(formData.get("sauver_modele") || "") === "oui";
+  const nomModele = String(formData.get("nom_modele") || "").trim();
   const details = dateDoc ? `Date du document : ${dateDoc}` : "";
 
   if (!clientNom || !designation || montant <= 0) {
@@ -87,6 +89,25 @@ export async function creerDocumentManuel(formData: FormData) {
       (error?.message || error?.code || "save").slice(0, 160)
     );
     redirect(`/admin/documents?erreur=${msg}`);
+  }
+
+  if (sauverModele) {
+    try {
+      await db.from("document_modeles").insert({
+        nom: nomModele || `${kind} — ${clientNom}`.slice(0, 80),
+        kind,
+        client_nom: clientNom,
+        client_email: clientEmail,
+        client_adresse: clientAdresse || null,
+        designation,
+        details: details || null,
+        quantite,
+        prix_unitaire_cents: pu,
+        paiement_mention: paiement || null,
+      });
+    } catch (e) {
+      console.error("modele", e);
+    }
   }
 
   if (envoyer && clientEmail) {

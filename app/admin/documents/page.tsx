@@ -12,7 +12,7 @@ export const metadata = { title: "Devis & factures" };
 export default async function DocumentsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ ok?: string; erreur?: string }>;
+  searchParams: Promise<{ ok?: string; erreur?: string; modele?: string }>;
 }) {
   const gate = await requireAdmin();
   if (!gate.ok) {
@@ -27,11 +27,15 @@ export default async function DocumentsPage({
   } catch {
     db = userDb;
   }
-  const { data: docs } = await db
-    .from("documents_manuels")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .limit(50);
+  const [{ data: docs }, { data: modeles }] = await Promise.all([
+    db
+      .from("documents_manuels")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(50),
+    db.from("document_modeles").select("*").order("created_at", { ascending: false }),
+  ]);
+  const modeleActif = (modeles || []).find((m) => m.id === sp.modele);
   let erreurLabel = "";
   if (sp.erreur) {
     try {
@@ -65,7 +69,39 @@ export default async function DocumentsPage({
           Impossible d’enregistrer : {erreurLabel}
         </p>
       )}
-      <DocumentForm />
+      {(modeles || []).length > 0 && (
+        <div className="mt-6">
+          <p className="text-xs uppercase tracking-wider text-bronze">Modèles</p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {(modeles || []).map((m) => (
+              <Link
+                key={m.id}
+                href={`/admin/documents?modele=${m.id}`}
+                className="rounded-full border border-bronze/30 px-3 py-1 text-xs text-cream/80 hover:text-glow"
+              >
+                {m.nom}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+      <DocumentForm
+        key={modeleActif?.id || "nouveau"}
+        modele={
+          modeleActif
+            ? {
+                kind: modeleActif.kind,
+                client_nom: modeleActif.client_nom,
+                client_email: modeleActif.client_email,
+                client_adresse: modeleActif.client_adresse || "",
+                designation: modeleActif.designation,
+                quantite: String(modeleActif.quantite || 1),
+                prix_unitaire: String(((modeleActif.prix_unitaire_cents || 0) / 100).toFixed(2)),
+                paiement_mention: modeleActif.paiement_mention || "",
+              }
+            : undefined
+        }
+      />
 
       <h2 className="mt-12 font-serif text-2xl text-cream">Derniers documents</h2>
       <div className="mt-4 space-y-3">

@@ -30,11 +30,31 @@ export type FacturePdfInput = {
   tvaCents?: number;
 };
 
+
+function pdfText(text: string) {
+  return Array.from(String(text ?? ""))
+    .map((ch) => {
+      const c = ch.charCodeAt(0);
+      if (c === 8364) return "EUR";
+      if (c === 339) return "oe";
+      if (c === 338) return "OE";
+      if (c >= 0x2010 && c <= 0x2015) return "-";
+      if (c === 0x2212) return "-";
+      if (c === 0xb7 || c === 0x2022) return "-";
+      if (c === 0xa0 || c === 0x202f) return " ";
+      if (c <= 255) return ch;
+      return "?";
+    })
+    .join("");
+}
+
 function euros(cents: number) {
-  return (cents / 100).toLocaleString("fr-FR", {
-    style: "currency",
-    currency: "EUR",
-  });
+  return pdfText(
+    (cents / 100).toLocaleString("fr-FR", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }) + " EUR"
+  );
 }
 
 function wrap(text: string, font: { widthOfTextAtSize: (t: string, s: number) => number }, size: number, max: number) {
@@ -83,7 +103,7 @@ export async function genererPdfFacture(input: FacturePdfInput) {
     f = font,
     color = ink
   ) => {
-    page.drawText(text, { x, y, size, font: f, color });
+    page.drawText(pdfText(text), { x, y, size, font: f, color });
   };
 
   const kind = input.kind || "facture";
@@ -182,7 +202,7 @@ export async function genererPdfFacture(input: FacturePdfInput) {
 
   page.drawRectangle({ x: 140, y: 388, width: 315, height: 22, color: forest });
   draw(
-    input.tvaMention || "TVA non applicable — article 293-B du CGI",
+    input.tvaMention || "TVA non applicable - article 293-B du CGI",
     150,
     395,
     9,
@@ -209,7 +229,7 @@ export async function genererPdfFacture(input: FacturePdfInput) {
     font,
     bronze
   );
-  draw(`${SITE.name} — ${SITE.email}`, 50, 64, 8, font, bronze);
+  draw(`${SITE.name} - ${SITE.email}`, 50, 64, 8, font, bronze);
 
   return doc.save();
 }
