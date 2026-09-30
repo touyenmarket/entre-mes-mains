@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient } from "@/lib/supabase/server";
 import { prochainNumero } from "@/lib/documents/numeros";
 import { envoyerEmail } from "@/lib/email";
 import { genererPdfFacture } from "@/lib/factures/pdf";
@@ -40,9 +41,15 @@ export async function creerDocumentManuel(formData: FormData) {
   const ht = montant;
   const tvaMention = "TVA non applicable — article 293-B du CGI";
 
-  const admin = createAdminClient();
-  const numero = await prochainNumero(kind);
-  const { data, error } = await admin
+  const userDb = await createClient();
+  let db = userDb;
+  try {
+    db = createAdminClient();
+  } catch {
+    db = userDb;
+  }
+  const numero = await prochainNumero(kind, db);
+  const { data, error } = await db
     .from("documents_manuels")
     .insert({
       kind,
@@ -76,7 +83,10 @@ export async function creerDocumentManuel(formData: FormData) {
     .single();
 
   if (error || !data) {
-    redirect("/admin/documents?erreur=save");
+    const msg = encodeURIComponent(
+      (error?.message || error?.code || "save").slice(0, 160)
+    );
+    redirect(`/admin/documents?erreur=${msg}`);
   }
 
   if (envoyer && clientEmail) {

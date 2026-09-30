@@ -1,4 +1,4 @@
--- Documents manuels (devis / factures hors réservation) + charges
+-- Relancer ce script dans Supabase → SQL Editor → Run
 
 CREATE TABLE IF NOT EXISTS documents_manuels (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -37,6 +37,7 @@ CREATE INDEX IF NOT EXISTS idx_charges_date ON charges(date_charge DESC);
 ALTER TABLE documents_manuels ENABLE ROW LEVEL SECURITY;
 ALTER TABLE charges ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "documents_manuels_admin_all" ON documents_manuels;
 CREATE POLICY "documents_manuels_admin_all"
   ON documents_manuels FOR ALL
   USING (
@@ -46,6 +47,7 @@ CREATE POLICY "documents_manuels_admin_all"
     EXISTS (SELECT 1 FROM profiles p WHERE p.id = auth.uid() AND p.role = 'admin')
   );
 
+DROP POLICY IF EXISTS "charges_admin_all" ON charges;
 CREATE POLICY "charges_admin_all"
   ON charges FOR ALL
   USING (
@@ -54,3 +56,8 @@ CREATE POLICY "charges_admin_all"
   WITH CHECK (
     EXISTS (SELECT 1 FROM profiles p WHERE p.id = auth.uid() AND p.role = 'admin')
   );
+
+GRANT ALL ON TABLE documents_manuels TO anon, authenticated, service_role;
+GRANT ALL ON TABLE charges TO anon, authenticated, service_role;
+
+NOTIFY pgrst, 'reload schema';

@@ -1,10 +1,14 @@
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { createAdminClient } from "@/lib/supabase/admin";
 
-export async function prochainNumero(kind: "devis" | "facture") {
-  const admin = createAdminClient();
+export async function prochainNumero(
+  kind: "devis" | "facture",
+  client?: SupabaseClient
+) {
+  const db = client ?? createAdminClient();
   const annee = new Date().getFullYear();
   const prefix = kind === "devis" ? `D-${annee}-` : `F-${annee}-`;
-  const { data } = await admin
+  const { data } = await db
     .from("documents_manuels")
     .select("numero")
     .like("numero", `${prefix}%`)

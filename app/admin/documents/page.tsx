@@ -46,7 +46,9 @@ export default async function DocumentsPage({
         <p className="mt-4 text-sm text-glow">Document {sp.ok} enregistré.</p>
       )}
       {sp.erreur && (
-        <p className="mt-4 text-sm text-glow">Impossible d’enregistrer ({sp.erreur}).</p>
+        <p className="mt-4 text-sm text-glow">
+          Impossible d’enregistrer : {decodeURIComponent(sp.erreur)}
+        </p>
       )}
       <DocumentForm />
 
