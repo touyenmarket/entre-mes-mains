@@ -6,7 +6,7 @@ import {
   supplementKm,
   kmFactures,
   totalAvecKm,
-} from "../lib/tarification.ts";
+} from "../lib/tarification";
 
 test("zone franche = 15 km", () => {
   assert.equal(ZONE_FRANCHE_KM, 15);

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { euros, parisLocalToIso } from "../lib/dates.ts";
+import { euros, parisLocalToIso } from "../lib/dates";
 
 test("euros formate les centimes", () => {
   const s = euros(8050);

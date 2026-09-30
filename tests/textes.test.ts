@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { t, TEXTES_DEFAUT } from "../lib/textes.ts";
+import { t, TEXTES_DEFAUT } from "../lib/textes";
 
 test("catalogue textes non vide", () => {
   assert.ok(TEXTES_DEFAUT.length > 50);
