@@ -75,7 +75,7 @@ export async function creerDocumentManuel(formData: FormData) {
       paiement_mention:
         paiement ||
         (kind === "devis"
-          ? "Ce document est un devis. Il ne vaut pas facture."
+          ? "Ce document est un devis. Il ne vaut pas une véritable facture."
           : "Paiement à réception / selon accord."),
       statut: envoyer ? "envoye" : "brouillon",
     })
@@ -110,7 +110,7 @@ export async function creerDocumentManuel(formData: FormData) {
       paiementMention:
         paiement ||
         (kind === "devis"
-          ? "Ce document est un devis. Il ne vaut pas facture."
+          ? "Ce document est un devis. Il ne vaut pas une véritable facture."
           : "Paiement à réception / selon accord."),
       tvaCents,
       lignes: [

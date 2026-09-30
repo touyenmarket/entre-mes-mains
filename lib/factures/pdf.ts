@@ -191,7 +191,7 @@ export async function genererPdfFacture(input: FacturePdfInput) {
   );
 
   if (kind === "devis") {
-    draw("Ce document est un devis. Il ne vaut pas facture.", 50, 360, 9, font, bronze);
+    draw("Ce document est un devis. Il ne vaut pas une véritable facture.", 50, 360, 9, font, bronze);
   } else if (input.paiementMention) {
     draw(input.paiementMention, 50, 360, 9, font, bronze);
   }

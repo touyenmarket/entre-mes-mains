@@ -37,12 +37,13 @@ docs/           documents du projet (architecture…)
 |---|---|---|
 | 1 | Squelette + design system + pages publiques | ✅ livré |
 | 2 | Schéma SQL + clients Supabase + guide GitHub/Vercel | ✅ livré |
-| 3 | Auth (lien magique, rôles) | à venir |
-| 4 | Calendrier + créneaux + réservations (naturo, massage, atelier LSF) | à venir |
-| 5 | Paiement (PayPal + démo) + statuts | à venir |
-| 6 | Visio + emails | à venir |
-| 7 | Factures PDF + espace patient + exports + RGPD | à venir |
-| 8 | Tests + guide de mise en ligne | à venir |
+| 3 | Auth (lien magique, rôles patient / admin) | ✅ livré |
+| 4 | Calendrier admin + créneaux + réservations (naturo, massage, bébé signes) | ✅ livré |
+| 5 | Paiement PayPal (compte Pro) + espèces + statuts | ✅ livré |
+| 6 | Visio auto (naturo) + emails Brevo (réservation + paiement + facture) | ✅ livré |
+| 7 | Factures PDF auto + devis/factures manuels + journal comptable + export CSV | ✅ livré |
+| 8 | Chat Tawk.to + pages légales + print (hors repo) | ✅ livré |
+| 9 | Recette complète + tests automatisés | à venir |
 
 ## Documents
 
