@@ -32,15 +32,22 @@ export default function Header() {
         <Link
           href="/"
           onClick={() => setOpen(false)}
-          className="flex items-center"
+          className="relative flex items-center pl-6"
         >
+          <span className="pointer-events-none absolute left-0 top-2 h-[72px] w-[72px]" aria-hidden>
+            <svg viewBox="0 0 72 72" className="h-full w-full overflow-visible">
+              <path d="M28 8l1.6 4.8H35l-4.2 3 1.6 4.8L28 17.6 23.6 20.6l1.6-4.8L21 12.8h5.4z" fill="#e8c4a0"/>
+              <path d="M8 30l2.4 7.2H18l-6.2 4.6 2.4 7.2L8 44.6 1.8 49.2l2.4-7.2L-2 37.2h7.6z" fill="#a39171" transform="translate(8 0)"/>
+              <path d="M26 42l1.5 4.4H33l-4 3 1.5 4.4L26 51.2 22 54.2l1.5-4.4-4-3h5.5z" fill="#c2b298"/>
+            </svg>
+          </span>
           <Image
             src="/images/logo.png"
             alt="Entre mes mains"
             width={160}
             height={100}
             priority
-            className="h-[84px] w-auto drop-shadow-[0_4px_14px_rgba(232,213,163,0.55)]"
+            className="relative z-10 h-[84px] w-auto drop-shadow-[0_4px_14px_rgba(232,213,163,0.55)]"
           />
         </Link>
 

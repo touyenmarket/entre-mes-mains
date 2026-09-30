@@ -34,7 +34,7 @@ export default async function ReserverSlugPage({
     .select("*")
     .eq("statut", "libre")
     .eq("format", p.format)
-    .gt("debut_at", new Date().toISOString())
+    .gte("debut_at", new Date(Date.now() - 2 * 60 * 1000).toISOString())
     .order("debut_at", { ascending: true });
 
   const disponibles = ((creneaux || []) as Creneau[]).filter(

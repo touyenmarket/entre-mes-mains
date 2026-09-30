@@ -124,7 +124,7 @@ export default function NouveauCreneauForm({
         />
       </label>
       <label className="text-sm text-cream/70 sm:col-span-2">
-        Lier à une prestation (optionnel)
+        Lier à une prestation (optionnel — vide = toutes les visio / ce format)
         <select
           name="prestation_id"
           className="mt-1 w-full rounded-xl border border-bronze/30 bg-forest-deep/60 px-3 py-2 text-cream"
