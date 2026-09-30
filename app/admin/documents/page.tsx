@@ -6,6 +6,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import DocumentForm from "./DocumentForm";
 import ConvertDevisForm from "./ConvertDevisForm";
+import ModeleChip from "./ModeleChip";
 
 export const metadata = { title: "Devis & factures" };
 
@@ -62,7 +63,11 @@ export default async function DocumentsPage({
         </ButtonLink>
       </div>
       {sp.ok && (
-        <p className="mt-4 text-sm text-glow">Document {sp.ok} enregistré.</p>
+        <p className="mt-4 text-sm text-glow">
+          {sp.ok === "modele-supprime"
+            ? "Modèle supprimé."
+            : `Document ${sp.ok} enregistré.`}
+        </p>
       )}
       {sp.erreur && (
         <p className="mt-4 text-sm text-glow">
@@ -74,13 +79,7 @@ export default async function DocumentsPage({
           <p className="text-xs uppercase tracking-wider text-bronze">Modèles</p>
           <div className="mt-2 flex flex-wrap gap-2">
             {(modeles || []).map((m) => (
-              <Link
-                key={m.id}
-                href={`/admin/documents?modele=${m.id}`}
-                className="rounded-full border border-bronze/30 px-3 py-1 text-xs text-cream/80 hover:text-glow"
-              >
-                {m.nom}
-              </Link>
+              <ModeleChip key={m.id} id={m.id} nom={m.nom} />
             ))}
           </div>
         </div>

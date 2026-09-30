@@ -42,7 +42,7 @@ export default function NouveauCreneauForm({
             defaultValue="10"
             className="mt-1 w-full rounded-xl border border-bronze/30 bg-forest-deep/60 px-3 py-2 text-cream"
           >
-            {Array.from({ length: 14 }, (_, i) => i + 8).map((h) => (
+            {Array.from({ length: 24 }, (_, h) => (
               <option key={h} value={h}>
                 {String(h).padStart(2, "0")} h
               </option>
@@ -53,11 +53,18 @@ export default function NouveauCreneauForm({
           Début — minutes
           <select
             name="minute"
-            defaultValue="00"
+            defaultValue="0"
             className="mt-1 w-full rounded-xl border border-bronze/30 bg-forest-deep/60 px-3 py-2 text-cream"
           >
             <option value="0">00</option>
             <option value="30">30</option>
+            {Array.from({ length: 60 }, (_, m) => m)
+              .filter((m) => m !== 0 && m !== 30)
+              .map((m) => (
+                <option key={m} value={m}>
+                  {String(m).padStart(2, "0")}
+                </option>
+              ))}
           </select>
         </label>
       </div>
@@ -69,7 +76,7 @@ export default function NouveauCreneauForm({
             defaultValue="11"
             className="mt-1 w-full rounded-xl border border-bronze/30 bg-forest-deep/60 px-3 py-2 text-cream"
           >
-            {Array.from({ length: 14 }, (_, i) => i + 8).map((h) => (
+            {Array.from({ length: 24 }, (_, h) => (
               <option key={h} value={h}>
                 {String(h).padStart(2, "0")} h
               </option>
@@ -80,11 +87,18 @@ export default function NouveauCreneauForm({
           Fin — minutes
           <select
             name="fin_minute"
-            defaultValue="00"
+            defaultValue="0"
             className="mt-1 w-full rounded-xl border border-bronze/30 bg-forest-deep/60 px-3 py-2 text-cream"
           >
             <option value="0">00</option>
             <option value="30">30</option>
+            {Array.from({ length: 60 }, (_, m) => m)
+              .filter((m) => m !== 0 && m !== 30)
+              .map((m) => (
+                <option key={m} value={m}>
+                  {String(m).padStart(2, "0")}
+                </option>
+              ))}
           </select>
         </label>
       </div>

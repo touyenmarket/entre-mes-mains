@@ -281,3 +281,19 @@ export async function transformerDevisEnFacture(formData: FormData) {
 
   redirect(`/admin/documents?ok=${numero}`);
 }
+
+export async function supprimerModele(formData: FormData) {
+  const gate = await requireAdmin();
+  if (!gate.ok) redirect("/connexion");
+  const id = String(formData.get("id") || "");
+  if (!id) redirect("/admin/documents");
+  const userDb = await createClient();
+  let db = userDb;
+  try {
+    db = createAdminClient();
+  } catch {
+    db = userDb;
+  }
+  await db.from("document_modeles").delete().eq("id", id);
+  redirect("/admin/documents?ok=modele-supprime");
+}
