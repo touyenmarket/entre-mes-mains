@@ -72,6 +72,9 @@ export default async function MesRdvPage() {
             <ButtonLink href="/admin/compta" variant="ghost">
               Comptabilité
             </ButtonLink>
+            <ButtonLink href="/admin/textes" variant="ghost">
+              Textes du site
+            </ButtonLink>
           </div>
         )}
 
