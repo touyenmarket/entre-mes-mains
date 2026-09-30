@@ -136,17 +136,25 @@ export default async function ComptaPage({
       <h2 className="mt-12 font-serif text-2xl text-cream">Journal des recettes</h2>
       <div className="mt-4 space-y-2 text-sm text-cream/75">
         {(reservations || []).map((r) => (
-          <p key={r.numero}>
+          <a
+            key={r.numero}
+            href={`/admin/compta/detail?type=reservation&ref=${encodeURIComponent(r.numero)}`}
+            className="block rounded-lg px-2 py-1.5 hover:bg-bronze/10 hover:text-cream"
+          >
             {(r.paye_at || r.created_at).slice(0, 10)} · {r.numero} ·{" "}
             {(r.prestations as { label?: string } | null)?.label || "Réservation"} ·{" "}
             {r.paiement_provider || "—"} · {euros(r.total_cents)}
-          </p>
+          </a>
         ))}
         {(manuels || []).map((d) => (
-          <p key={d.id}>
+          <a
+            key={d.id}
+            href={`/admin/compta/detail?type=document&ref=${encodeURIComponent(d.numero)}`}
+            className="block rounded-lg px-2 py-1.5 hover:bg-bronze/10 hover:text-cream"
+          >
             {String(d.created_at).slice(0, 10)} · {d.numero} · {d.client_nom} ·{" "}
             {d.designation} · {euros(d.montant_ttc_cents)}
-          </p>
+          </a>
         ))}
         {(reservations || []).length === 0 && (manuels || []).length === 0 && (
           <p className="text-cream/45">Aucune recette sur cette période.</p>

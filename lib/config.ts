@@ -4,7 +4,7 @@
  */
 export const SITE = {
   name: "Entre mes mains",
-  tagline: "Naturopathie & massage bien-être",
+  tagline: "Naturopathie · massages · bébé signes",
   description:
     "Consultations de naturopathie en visio, massages bien-être à domicile et atelier de langue des signes pour bébé.",
   email: "entremesmains28@gmail.com",

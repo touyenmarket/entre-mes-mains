@@ -59,7 +59,7 @@ export async function genererPdfFacture(input: FacturePdfInput) {
   const page = doc.addPage([595.28, 841.89]);
   const font = await doc.embedFont(StandardFonts.Helvetica);
   const bold = await doc.embedFont(StandardFonts.HelveticaBold);
-  const forest = rgb(0.184, 0.243, 0.188);
+  const forest = rgb(0.42, 0.51, 0.43);
   const bronze = rgb(0.639, 0.569, 0.443);
   const cream = rgb(0.992, 0.984, 0.969);
   const sand = rgb(0.93, 0.89, 0.82);
@@ -94,7 +94,17 @@ export async function genererPdfFacture(input: FacturePdfInput) {
   draw("ENTRE MES MAINS", 130, 808, 14, bold, forest);
   draw(SITE.tagline, 130, 792, 9, font, bronze);
 
-  draw(`Numéro : ${input.numeroFacture}`, 50, 748, 10, bold);
+  const nAffiche = (() => {
+    const m = input.numeroFacture.match(/(\d+)\s*$/);
+    return String(Number(m ? m[1] : "1"));
+  })();
+  draw(
+    `${kind === "devis" ? "Devis" : "Facture"} numéro ${nAffiche}`,
+    50,
+    748,
+    10,
+    bold
+  );
   draw(`Date : ${input.dateEmission}`, 50, 734, 10);
   if (input.numeroReservation) {
     draw(`Réservation ${input.numeroReservation}`, 50, 720, 9, font, bronze);
