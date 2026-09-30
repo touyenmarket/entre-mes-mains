@@ -7,7 +7,8 @@ import {
 } from "@/components/ui";
 import ContactForm from "@/components/ContactForm";
 import { SITE } from "@/lib/config";
-import { chargerTextes, t } from "@/lib/textes";
+import { t } from "@/lib/textes";
+import { chargerTextes } from "@/lib/textes-server";
 import { ZONE_FRANCHE_KM } from "@/lib/tarification";
 
 export const metadata = { title: "Contact" };

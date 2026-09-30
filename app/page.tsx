@@ -23,7 +23,8 @@ import {
 } from "@/components/ui";
 import { SITE } from "@/lib/config";
 import DistancePreview from "@/components/DistancePreview";
-import { chargerTextes, t } from "@/lib/textes";
+import { t } from "@/lib/textes";
+import { chargerTextes } from "@/lib/textes-server";
 
 const etapes = [
   {

@@ -1,7 +1,8 @@
 import { redirect } from "next/navigation";
 import { Container, Badge, ButtonLink } from "@/components/ui";
 import { requireAdmin } from "@/lib/auth";
-import { TEXTES_DEFAUT, chargerTextes } from "@/lib/textes";
+import { TEXTES_DEFAUT } from "@/lib/textes";
+import { chargerTextes } from "@/lib/textes-server";
 import { enregistrerTextes } from "./actions";
 
 export const metadata = { title: "Textes du site" };

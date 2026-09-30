@@ -15,7 +15,8 @@ import {
   Price,
   HaloStrong,
 } from "@/components/ui";
-import { chargerTextes, t } from "@/lib/textes";
+import { t } from "@/lib/textes";
+import { chargerTextes } from "@/lib/textes-server";
 
 const approche = [
   {

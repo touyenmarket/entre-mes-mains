@@ -216,21 +216,3 @@ export function t(map: Record<string, string>, cle: string) {
   const v = (map[cle] || "").trim();
   return v || texteDefaut(cle);
 }
-
-export async function chargerTextes(): Promise<Record<string, string>> {
-  const map: Record<string, string> = {};
-  for (const row of TEXTES_DEFAUT) map[row.cle] = row.valeur;
-  try {
-    const { createClient } = await import("@/lib/supabase/server");
-    const db = await createClient();
-    const { data } = await db.from("site_textes").select("cle, valeur");
-    for (const row of data || []) {
-      if (row.cle && typeof row.valeur === "string" && row.valeur.trim()) {
-        map[row.cle] = row.valeur;
-      }
-    }
-  } catch {
-    /* table absente */
-  }
-  return map;
-}

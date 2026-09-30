@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { SITE } from "@/lib/config";
-import { chargerTextes, t } from "@/lib/textes";
+import { t } from "@/lib/textes";
+import { chargerTextes } from "@/lib/textes-server";
 import { ZONE_FRANCHE_KM, TARIF_KM_EUR } from "@/lib/tarification";
 
 const activites = [

@@ -11,7 +11,8 @@ import {
 import DistancePreview from "@/components/DistancePreview";
 import MassageAccordion from "@/components/MassageAccordion";
 import { ZONE_FRANCHE_KM } from "@/lib/tarification";
-import { chargerTextes, t } from "@/lib/textes";
+import { t } from "@/lib/textes";
+import { chargerTextes } from "@/lib/textes-server";
 
 const pratique = [
   {
