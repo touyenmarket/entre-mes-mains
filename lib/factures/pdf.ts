@@ -88,23 +88,16 @@ export async function genererPdfFacture(input: FacturePdfInput) {
 
   const kind = input.kind || "facture";
 
-  page.drawRectangle({ x: 380, y: 778, width: 165, height: 36, color: forest });
-  draw(kind === "devis" ? "DEVIS" : "FACTURE", 400, 790, 18, bold, cream);
-
-  draw("ENTRE MES MAINS", 130, 808, 14, bold, forest);
-  draw(SITE.tagline, 130, 792, 9, font, bronze);
-
   const nAffiche = (() => {
     const m = input.numeroFacture.match(/(\d+)\s*$/);
     return String(Number(m ? m[1] : "1"));
   })();
-  draw(
-    `${kind === "devis" ? "Devis" : "Facture"} numéro ${nAffiche}`,
-    50,
-    748,
-    10,
-    bold
-  );
+  const titreBandeau = `${kind === "devis" ? "DEVIS" : "FACTURE"} N°${nAffiche}`;
+  page.drawRectangle({ x: 355, y: 776, width: 190, height: 40, color: forest });
+  draw(titreBandeau, 368, 789, 14, bold, cream);
+
+  draw("ENTRE MES MAINS", 130, 808, 14, bold, forest);
+  draw(SITE.tagline, 130, 792, 9, font, bronze);
   draw(`Date : ${input.dateEmission}`, 50, 734, 10);
   if (input.numeroReservation) {
     draw(`Réservation ${input.numeroReservation}`, 50, 720, 9, font, bronze);
