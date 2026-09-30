@@ -108,7 +108,7 @@ export async function genererPdfFacture(input: FacturePdfInput) {
   draw("7 rue de Champfroid", 58, 674, 9, font, cream);
   draw("28800 Sancheville", 58, 662, 9, font, cream);
   draw(SITE.email, 58, 650, 8, font, cream);
-  draw(`N° SIRET : ${SITE.siret}`, 58, 638, 8, font, cream);
+  draw(`N° SIRET : ${SITE.siret || ""}`, 58, 638, 8, font, cream);
 
   page.drawRectangle({ x: 305, y: 628, width: 240, height: 78, color: sand });
   draw(kind === "devis" ? "Destinataire" : "Client", 313, 688, 9, bold, forest);
@@ -199,7 +199,7 @@ export async function genererPdfFacture(input: FacturePdfInput) {
   page.drawRectangle({ x: 50, y: 280, width: 260, height: 62, color: forest });
   draw("INFORMATIONS BANCAIRES", 58, 322, 8, bold, cream);
   draw(SITE.titulaireIban || SITE.responsable, 58, 308, 9, font, cream);
-  draw(`IBAN ${SITE.iban}`, 58, 294, 8, font, cream);
+  draw(`IBAN ${SITE.iban || ""}`, 58, 294, 8, font, cream);
 
   draw(
     "Prestation de bien-être / accompagnement. Ne se substitue pas à un acte médical.",

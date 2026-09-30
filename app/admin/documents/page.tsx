@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Container, Badge, ButtonLink } from "@/components/ui";
 import { requireAdmin } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient } from "@/lib/supabase/server";
 import DocumentForm from "./DocumentForm";
 import ConvertDevisForm from "./ConvertDevisForm";
 
@@ -19,12 +20,26 @@ export default async function DocumentsPage({
     redirect("/mes-rendez-vous");
   }
   const sp = await searchParams;
-  const admin = createAdminClient();
-  const { data: docs } = await admin
+  const userDb = await createClient();
+  let db = userDb;
+  try {
+    db = createAdminClient();
+  } catch {
+    db = userDb;
+  }
+  const { data: docs } = await db
     .from("documents_manuels")
     .select("*")
     .order("created_at", { ascending: false })
     .limit(50);
+  let erreurLabel = "";
+  if (sp.erreur) {
+    try {
+      erreurLabel = decodeURIComponent(sp.erreur);
+    } catch {
+      erreurLabel = sp.erreur;
+    }
+  }
 
   return (
     <Container className="py-14 sm:py-20">
@@ -47,7 +62,7 @@ export default async function DocumentsPage({
       )}
       {sp.erreur && (
         <p className="mt-4 text-sm text-glow">
-          Impossible d’enregistrer : {decodeURIComponent(sp.erreur)}
+          Impossible d’enregistrer : {erreurLabel}
         </p>
       )}
       <DocumentForm />

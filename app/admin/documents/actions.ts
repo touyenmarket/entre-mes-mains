@@ -90,6 +90,7 @@ export async function creerDocumentManuel(formData: FormData) {
   }
 
   if (envoyer && clientEmail) {
+    try {
     const bytes = await genererPdfFacture({
       numeroFacture: numero,
       numeroReservation: "",
@@ -138,6 +139,9 @@ export async function creerDocumentManuel(formData: FormData) {
         },
       ],
     });
+    } catch (e) {
+      console.error("email document", e);
+    }
   }
 
   redirect(`/admin/documents?ok=${data.numero}`);
@@ -199,6 +203,7 @@ export async function transformerDevisEnFacture(formData: FormData) {
   await db.from("documents_manuels").update({ statut: "transforme" }).eq("id", devis.id);
 
   if (envoyer && clientEmail) {
+    try {
     const lignes = Array.isArray(devis.lignes) ? devis.lignes : undefined;
     const bytes = await genererPdfFacture({
       numeroFacture: numero,
@@ -232,6 +237,9 @@ export async function transformerDevisEnFacture(formData: FormData) {
         },
       ],
     });
+    } catch (e) {
+      console.error("email facture", e);
+    }
   }
 
   redirect(`/admin/documents?ok=${numero}`);
