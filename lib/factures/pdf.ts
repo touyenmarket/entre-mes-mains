@@ -28,6 +28,7 @@ export type FacturePdfInput = {
   paiementMention?: string;
   lignes?: LignePdf[];
   tvaCents?: number;
+  numeroAffiche?: string;
 };
 
 
@@ -108,10 +109,12 @@ export async function genererPdfFacture(input: FacturePdfInput) {
 
   const kind = input.kind || "facture";
 
-  const nAffiche = (() => {
-    const m = input.numeroFacture.match(/(\d+)\s*$/);
-    return String(Number(m ? m[1] : "1"));
-  })();
+  const nAffiche =
+    input.numeroAffiche ||
+    (() => {
+      const m = input.numeroFacture.match(/(\d+)\s*$/);
+      return String(Number(m ? m[1] : "1"));
+    })();
   const titreBandeau = `${kind === "devis" ? "DEVIS" : "FACTURE"} N°${nAffiche}`;
   page.drawRectangle({ x: 355, y: 776, width: 190, height: 40, color: forest });
   draw(titreBandeau, 368, 789, 14, bold, cream);
@@ -119,8 +122,11 @@ export async function genererPdfFacture(input: FacturePdfInput) {
   draw("ENTRE MES MAINS", 130, 808, 14, bold, forest);
   draw(SITE.tagline, 130, 792, 9, font, bronze);
   draw(`Date : ${input.dateEmission}`, 50, 734, 10);
+  if (input.numeroFacture) {
+    draw(`Ref. interne ${input.numeroFacture}`, 50, 720, 8, font, bronze);
+  }
   if (input.numeroReservation) {
-    draw(`Réservation ${input.numeroReservation}`, 50, 720, 9, font, bronze);
+    draw(`Réservation ${input.numeroReservation}`, 50, 708, 9, font, bronze);
   }
 
   page.drawRectangle({ x: 50, y: 628, width: 240, height: 78, color: forest });

@@ -91,6 +91,11 @@ export default function DocumentForm({ modele }: { modele?: ModelePrefill }) {
         />
       </div>
       <input
+        name="numero_affiche"
+        placeholder="N° chez le client (vide = auto : 1, 2, 3… par client)"
+        className={field}
+      />
+      <input
         name="paiement_mention"
         placeholder="Mention paiement (optionnel)"
         defaultValue={modele?.paiement_mention || ""}

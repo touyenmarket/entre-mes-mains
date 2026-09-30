@@ -3,6 +3,7 @@ import { getCurrentProfile } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { genererPdfFacture } from "@/lib/factures/pdf";
+import { extraireNumeroAffiche, detailsSansAffiche } from "@/lib/documents/numeros";
 
 export async function GET(
   _req: Request,
@@ -32,13 +33,14 @@ export async function GET(
 
     const bytes = await genererPdfFacture({
       numeroFacture: doc.numero,
+      numeroAffiche: extraireNumeroAffiche(doc.details) || undefined,
       numeroReservation: "",
       dateEmission: new Date(doc.created_at).toLocaleDateString("fr-FR"),
       clientNom: doc.client_nom,
       clientEmail: doc.client_email || "",
       clientAdresse: doc.client_adresse,
       prestationLabel: doc.designation,
-      creneauLabel: doc.details || "",
+      creneauLabel: detailsSansAffiche(doc.details) || "",
       baseCents: doc.montant_ht_cents || doc.montant_ttc_cents,
       supplementKmCents: 0,
       distanceKm: null,

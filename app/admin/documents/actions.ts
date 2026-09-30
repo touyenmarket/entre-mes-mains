@@ -4,7 +4,13 @@ import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
-import { prochainNumero } from "@/lib/documents/numeros";
+import {
+  prochainNumero,
+  prochainNumeroClient,
+  detailsAvecAffiche,
+  extraireNumeroAffiche,
+  detailsSansAffiche,
+} from "@/lib/documents/numeros";
 import { envoyerEmail } from "@/lib/email";
 import { genererPdfFacture } from "@/lib/factures/pdf";
 import { SITE } from "@/lib/config";
@@ -33,7 +39,8 @@ export async function creerDocumentManuel(formData: FormData) {
   const envoyer = String(formData.get("envoyer") || "") === "oui";
   const sauverModele = String(formData.get("sauver_modele") || "") === "oui";
   const nomModele = String(formData.get("nom_modele") || "").trim();
-  const details = dateDoc ? `Date du document : ${dateDoc}` : "";
+  const detailsBase = dateDoc ? `Date du document : ${dateDoc}` : "";
+  const numeroAfficheSaisi = String(formData.get("numero_affiche") || "").trim();
 
   if (!clientNom || !designation || montant <= 0) {
     redirect("/admin/documents?erreur=champs");
@@ -51,6 +58,9 @@ export async function creerDocumentManuel(formData: FormData) {
     db = userDb;
   }
   const numero = await prochainNumero(kind, db);
+  const numeroAffiche =
+    numeroAfficheSaisi || (await prochainNumeroClient(kind, clientNom, db));
+  const details = detailsAvecAffiche(detailsBase, numeroAffiche);
   const { data, error } = await db
     .from("documents_manuels")
     .insert({
@@ -60,7 +70,7 @@ export async function creerDocumentManuel(formData: FormData) {
       client_email: clientEmail,
       client_adresse: clientAdresse || null,
       designation,
-      details: details || null,
+      details,
       lignes: [
         {
           libelle: designation,
@@ -114,6 +124,7 @@ export async function creerDocumentManuel(formData: FormData) {
     try {
     const bytes = await genererPdfFacture({
       numeroFacture: numero,
+      numeroAffiche,
       numeroReservation: "",
       dateEmission: dateDoc
         ? new Date(dateDoc).toLocaleDateString("fr-FR")
@@ -193,6 +204,10 @@ export async function transformerDevisEnFacture(formData: FormData) {
 
   const clientEmail = emailSaisi || devis.client_email || "";
   const numero = await prochainNumero("facture", db);
+  const numeroAfficheSaisi = String(formData.get("numero_affiche") || "").trim();
+  const numeroAffiche =
+    numeroAfficheSaisi ||
+    (await prochainNumeroClient("facture", devis.client_nom, db));
   const { data: facture, error } = await db
     .from("documents_manuels")
     .insert({
@@ -202,7 +217,7 @@ export async function transformerDevisEnFacture(formData: FormData) {
       client_email: clientEmail,
       client_adresse: devis.client_adresse,
       designation: devis.designation,
-      details: devis.details,
+      details: detailsAvecAffiche(detailsSansAffiche(devis.details), numeroAffiche),
       lignes: devis.lignes,
       montant_ht_cents: devis.montant_ht_cents,
       tva_taux: devis.tva_taux,
@@ -228,6 +243,7 @@ export async function transformerDevisEnFacture(formData: FormData) {
     const lignes = Array.isArray(devis.lignes) ? devis.lignes : undefined;
     const bytes = await genererPdfFacture({
       numeroFacture: numero,
+      numeroAffiche,
       numeroReservation: "",
       dateEmission: new Date().toLocaleDateString("fr-FR"),
       clientNom: devis.client_nom,

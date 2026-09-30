@@ -16,6 +16,11 @@ export default function ConvertDevisForm({
     >
       <input type="hidden" name="id" value={id} />
       <input
+        name="numero_affiche"
+        placeholder="N° client (auto)"
+        className="w-24 rounded-lg border border-bronze/20 bg-forest-deep/40 px-2 py-1 text-xs text-cream"
+      />
+      <input
         type="email"
         name="client_email"
         defaultValue={email}
