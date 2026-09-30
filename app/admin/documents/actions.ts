@@ -147,8 +147,18 @@ export async function transformerDevisEnFacture(formData: FormData) {
   const gate = await requireAdmin();
   if (!gate.ok) redirect("/connexion");
   const id = String(formData.get("id") || "");
-  const admin = createAdminClient();
-  const { data: devis } = await admin
+  const emailSaisi = String(formData.get("client_email") || "").trim();
+  const envoyer = String(formData.get("envoyer") || "") === "oui";
+
+  const userDb = await createClient();
+  let db = userDb;
+  try {
+    db = createAdminClient();
+  } catch {
+    db = userDb;
+  }
+
+  const { data: devis } = await db
     .from("documents_manuels")
     .select("*")
     .eq("id", id)
@@ -156,28 +166,73 @@ export async function transformerDevisEnFacture(formData: FormData) {
     .maybeSingle();
   if (!devis) redirect("/admin/documents?erreur=introuvable");
 
-  const numero = await prochainNumero("facture");
-  await admin.from("documents_manuels").insert({
-    kind: "facture",
-    numero,
-    client_nom: devis.client_nom,
-    client_email: devis.client_email,
-    client_adresse: devis.client_adresse,
-    designation: devis.designation,
-    details: devis.details,
-    lignes: devis.lignes,
-    montant_ht_cents: devis.montant_ht_cents,
-    tva_taux: devis.tva_taux,
-    tva_cents: devis.tva_cents,
-    montant_ttc_cents: devis.montant_ttc_cents,
-    tva_mention: devis.tva_mention,
-    paiement_mention: "Paiement à réception / selon accord.",
-    statut: "emise",
-    devis_source_id: devis.id,
-  });
-  await admin
+  const clientEmail = emailSaisi || devis.client_email || "";
+  const numero = await prochainNumero("facture", db);
+  const { data: facture, error } = await db
     .from("documents_manuels")
-    .update({ statut: "transforme" })
-    .eq("id", devis.id);
+    .insert({
+      kind: "facture",
+      numero,
+      client_nom: devis.client_nom,
+      client_email: clientEmail,
+      client_adresse: devis.client_adresse,
+      designation: devis.designation,
+      details: devis.details,
+      lignes: devis.lignes,
+      montant_ht_cents: devis.montant_ht_cents,
+      tva_taux: devis.tva_taux,
+      tva_cents: devis.tva_cents,
+      montant_ttc_cents: devis.montant_ttc_cents,
+      tva_mention: devis.tva_mention,
+      paiement_mention: "Paiement à réception / selon accord.",
+      statut: envoyer ? "envoye" : "emise",
+      devis_source_id: devis.id,
+    })
+    .select("id, numero")
+    .single();
+
+  if (error || !facture) {
+    const msg = encodeURIComponent((error?.message || "save").slice(0, 160));
+    redirect(`/admin/documents?erreur=${msg}`);
+  }
+
+  await db.from("documents_manuels").update({ statut: "transforme" }).eq("id", devis.id);
+
+  if (envoyer && clientEmail) {
+    const lignes = Array.isArray(devis.lignes) ? devis.lignes : undefined;
+    const bytes = await genererPdfFacture({
+      numeroFacture: numero,
+      numeroReservation: "",
+      dateEmission: new Date().toLocaleDateString("fr-FR"),
+      clientNom: devis.client_nom,
+      clientEmail,
+      clientAdresse: devis.client_adresse,
+      prestationLabel: devis.designation,
+      creneauLabel: devis.details || "",
+      baseCents: devis.montant_ht_cents || devis.montant_ttc_cents,
+      supplementKmCents: 0,
+      distanceKm: null,
+      totalCents: devis.montant_ttc_cents,
+      kind: "facture",
+      tvaMention: devis.tva_mention,
+      paiementMention: "Paiement à réception / selon accord.",
+      tvaCents: devis.tva_cents,
+      lignes,
+    });
+    await envoyerEmail({
+      to: clientEmail,
+      subject: `Facture ${numero} — ${SITE.name}`,
+      text: `Bonjour ${devis.client_nom},\n\nVeuillez trouver ci-joint votre facture ${numero}.\n\n${SITE.name}`,
+      html: `<p>Bonjour ${devis.client_nom},</p><p>Veuillez trouver ci-joint votre facture <strong>${numero}</strong>.</p><p>${SITE.name}</p>`,
+      attachments: [
+        {
+          filename: `facture-${numero}.pdf`,
+          content: Buffer.from(bytes),
+          contentType: "application/pdf",
+        },
+      ],
+    });
+  }
+
   redirect(`/admin/documents?ok=${numero}`);
 }

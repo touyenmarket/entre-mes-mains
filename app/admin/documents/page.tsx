@@ -4,7 +4,7 @@ import { Container, Badge, ButtonLink } from "@/components/ui";
 import { requireAdmin } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import DocumentForm from "./DocumentForm";
-import { transformerDevisEnFacture } from "./actions";
+import ConvertDevisForm from "./ConvertDevisForm";
 
 export const metadata = { title: "Devis & factures" };
 
@@ -77,12 +77,7 @@ export default async function DocumentsPage({
                 PDF
               </Link>
               {d.kind === "devis" && d.statut !== "transforme" && (
-                <form action={transformerDevisEnFacture}>
-                  <input type="hidden" name="id" value={d.id} />
-                  <button className="text-bronze hover:text-glow" type="submit">
-                    → Facture
-                  </button>
-                </form>
+                <ConvertDevisForm id={d.id} email={d.client_email || ""} />
               )}
             </div>
           </div>
