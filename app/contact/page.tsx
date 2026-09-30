@@ -7,20 +7,22 @@ import {
 } from "@/components/ui";
 import ContactForm from "@/components/ContactForm";
 import { SITE } from "@/lib/config";
+import { chargerTextes, t } from "@/lib/textes";
 import { ZONE_FRANCHE_KM } from "@/lib/tarification";
 
 export const metadata = { title: "Contact" };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const tx = await chargerTextes();
   return (
     <section className="relative py-20 sm:py-24">
       <HaloStrong className="left-1/2 top-1/4 h-[400px] w-[800px] -translate-x-1/2" />
       <Container className="relative">
         <SectionTitle
           center
-          eyebrow="Contact"
-          title="Une question ? Parlons-en"
-          subtitle="Un doute sur une prestation, une demande particulière, un créneau spécifique : écrivez-moi, je réponds rapidement."
+          eyebrow={t(tx, "contact.eyebrow")}
+          title={t(tx, "contact.titre")}
+          subtitle={t(tx, "contact.sous")}
         />
 
         <div className="mt-12 grid gap-8 lg:grid-cols-5">

@@ -20,21 +20,18 @@ import { chargerTextes, t } from "@/lib/textes";
 const approche = [
   {
     icon: Leaf,
-    titre: "Vitalité au naturel",
-    texte:
-      "Alimentation, hygiène de vie et gestion du stress : des conseils naturels et concrets, adaptés à votre quotidien, pour soutenir votre équilibre et votre vitalité.",
+    titreKey: "naturo.approche1_titre",
+    texteKey: "naturo.approche1_texte",
   },
   {
     icon: ListChecks,
-    titre: "Un plan personnalisé",
-    texte:
-      "Une synthèse ainsi qu'un plan d'accompagnement personnalisé sont élaborés et vous sont envoyés sous 7 jours.",
+    titreKey: "naturo.approche2_titre",
+    texteKey: "naturo.approche2_texte",
   },
   {
     icon: MessageCircleHeart,
-    titre: "Un suivi dans le temps",
-    texte:
-      "Des consultations de suivi pour ajuster, encourager et accompagner vos changements, saison après saison.",
+    titreKey: "naturo.approche3_titre",
+    texteKey: "naturo.approche3_texte",
   },
 ];
 
@@ -109,7 +106,7 @@ export default async function NaturopathiePage() {
               height={17}
               className="h-[17px] w-auto shrink-0"
             />
-            Consultations accessibles aux personnes sourdes et malentendantes
+            {t(tx, "naturo.access")}
           </p>
         </Container>
       </section>
@@ -119,18 +116,18 @@ export default async function NaturopathiePage() {
         <Container>
           <SectionTitle
             center
-            eyebrow="L'approche"
-            title="Un accompagnement global et sur-mesure"
+            eyebrow={t(tx, "naturo.approche_eyebrow")}
+            title={t(tx, "naturo.approche_titre")}
           />
           <div className="mt-12 grid gap-5 md:grid-cols-3">
             {approche.map((a) => (
-              <Card key={a.titre}>
+              <Card key={t(tx, a.titreKey)}>
                 <a.icon size={22} className="text-sage" />
                 <h3 className="mt-4 font-serif text-lg text-cream">
-                  {a.titre}
+                  {t(tx, a.titreKey)}
                 </h3>
                 <p className="mt-2 text-[13px] leading-relaxed text-cream/60">
-                  {a.texte}
+                  {t(tx, a.texteKey)}
                 </p>
               </Card>
             ))}
@@ -142,8 +139,8 @@ export default async function NaturopathiePage() {
       <section className="relative py-20">
         <Container>
           <SectionTitle
-            eyebrow="Le déroulé"
-            title="Comment se passent les consultations ?"
+            eyebrow={t(tx, "naturo.deroule_eyebrow")}
+            title={t(tx, "naturo.deroule_titre")}
           />
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {deroule.map((d) => (
@@ -152,13 +149,13 @@ export default async function NaturopathiePage() {
                   {d.numero}
                 </span>
                 <h3 className="mt-3 font-serif text-lg text-cream">
-                  {d.titre}
+                  {t(tx, `naturo.d${d.numero}_titre`)}
                 </h3>
                 <p className="text-[11px] font-semibold uppercase tracking-widest text-bronze/80">
-                  {d.detail}
+                  {t(tx, `naturo.d${d.numero}_detail`)}
                 </p>
                 <p className="mt-3 text-[13px] leading-relaxed text-cream/60">
-                  {d.texte}
+                  {t(tx, `naturo.d${d.numero}_texte`)}
                 </p>
               </Card>
             ))}
@@ -169,13 +166,10 @@ export default async function NaturopathiePage() {
             <Video size={26} className="shrink-0 text-glow" />
             <div>
               <h3 className="font-serif text-lg text-cream">
-                100&nbsp;% en visio — sans rien à installer
+                {t(tx, "naturo.visio_titre")}
               </h3>
               <p className="mt-1.5 text-sm leading-relaxed text-cream/60">
-                Le lien de visioconférence vous est envoyé automatiquement
-                après votre réservation, et un rappel vous est adressé la
-                veille. Prévoyez simplement un endroit calme et une bonne
-                connexion.
+{t(tx, "naturo.visio_texte")}
               </p>
             </div>
           </Card>
@@ -188,9 +182,9 @@ export default async function NaturopathiePage() {
         <Container className="relative">
           <SectionTitle
             center
-            eyebrow="Tarifs"
-            title="Des tarifs simples et transparents"
-            subtitle="Paiement intégral en ligne à la réservation."
+            eyebrow={t(tx, "naturo.tarifs_eyebrow")}
+            title={t(tx, "naturo.tarifs_titre")}
+            subtitle={t(tx, "naturo.tarifs_sous")}
           />
           <div className="mx-auto mt-12 grid max-w-3xl gap-5 sm:grid-cols-2">
             {tarifs.map((tarif) => (

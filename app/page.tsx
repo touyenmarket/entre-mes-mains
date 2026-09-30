@@ -90,16 +90,13 @@ export default async function Home() {
           </div>
           <div className="mt-11 flex flex-wrap items-center justify-center gap-x-7 gap-y-2 text-xs text-cream/55">
             <span className="flex items-center gap-1.5">
-              <Video size={13} className="text-bronze" /> Lien visio envoyé
-              automatiquement après paiement
+              <Video size={13} className="text-bronze" /> {t(tx, "accueil.pastille_visio")}
             </span>
             <span className="flex items-center gap-1.5">
-              <CreditCard size={13} className="text-bronze" /> Paiement en ligne
-              sécurisé
+              <CreditCard size={13} className="text-bronze" /> {t(tx, "accueil.pastille_paiement")}
             </span>
             <span className="flex items-center gap-1.5">
-              <CalendarDays size={13} className="text-bronze" /> Rappel la
-              veille
+              <CalendarDays size={13} className="text-bronze" /> {t(tx, "accueil.pastille_rappel")}
             </span>
           </div>
         </Container>
@@ -129,22 +126,22 @@ export default async function Home() {
               <div className="p-7">
                 <Leaf size={24} className="text-sage" />
                 <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-bronze">
-                  au service de la femme
+      {t(tx, "accueil.card_naturo_badge")}
                 </p>
                 <h3 className="mt-2 font-serif text-2xl text-cream">
-                  Naturopathie — en visio
+{t(tx, "accueil.card_naturo_titre")}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-cream/60">
-                  Bilan de vitalité, conseils d&apos;hygiène de vie et suivi
-                  personnalisé, où que vous soyez.
+                  {t(tx, "accueil.card_naturo_texte")}
+
                 </p>
                 <ul className="mt-4 space-y-1.5 text-sm text-cream/70">
-                  <li>· Premier rendez-vous de 1h30, puis suivis d&apos;1h</li>
-                  <li>· Lien visio envoyé automatiquement après paiement</li>
-                  <li>· Rappel la veille, sans démarche de votre côté</li>
+                  <li>· {t(tx, "accueil.card_naturo_l1")}</li>
+                  <li>· {t(tx, "accueil.card_naturo_l2")}</li>
+                  <li>· {t(tx, "accueil.card_naturo_l3")}</li>
                 </ul>
                 <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-glow">
-                  Découvrir la naturopathie{" "}
+{t(tx, "accueil.card_naturo_lien")}{" "}
                   <ChevronRight
                     size={15}
                     className="transition-transform group-hover:translate-x-0.5"
@@ -167,19 +164,18 @@ export default async function Home() {
               <div className="p-7">
                 <Heart size={24} className="text-sage" />
                 <h3 className="mt-4 font-serif text-2xl text-cream">
-                  Massage — à domicile
+{t(tx, "accueil.card_massage_titre")}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-cream/60">
-                  Prénatal, postnatal, bébé — je me déplace chez vous
-                  avec tout le matériel.
+                  {t(tx, "accueil.card_massage_texte")}
                 </p>
                 <ul className="mt-4 space-y-1.5 text-sm text-cream/70">
-                  <li>· Tarif kilométrique transparent et calculé pour vous</li>
-                  <li>· Forfait bébé 4 séances ou séance à l&apos;unité</li>
-                  <li>· Tout le matériel est prévu</li>
+                  <li>· {t(tx, "accueil.card_massage_l1")}</li>
+                  <li>· {t(tx, "accueil.card_massage_l2")}</li>
+                  <li>· {t(tx, "accueil.card_massage_l3")}</li>
                 </ul>
                 <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-glow">
-                  Découvrir les massages{" "}
+{t(tx, "accueil.card_massage_lien")}{" "}
                   <ChevronRight
                     size={15}
                     className="transition-transform group-hover:translate-x-0.5"
@@ -197,8 +193,8 @@ export default async function Home() {
         <Container className="relative">
           <SectionTitle
             center
-            eyebrow="En pratique"
-            title="Comment ça se passe ?"
+            eyebrow={t(tx, "accueil.pratique_eyebrow")}
+            title={t(tx, "accueil.pratique_titre")}
           />
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {etapes.map((e, i) => (
@@ -208,10 +204,10 @@ export default async function Home() {
                 </span>
                 <e.icon size={22} className="text-bronze" />
                 <h3 className="mt-4 font-serif text-lg text-cream">
-                  {e.titre}
+                  {t(tx, `accueil.etape${i + 1}_titre`)}
                 </h3>
                 <p className="mt-2 text-[13px] leading-relaxed text-cream/60">
-                  {e.texte}
+                  {t(tx, `accueil.etape${i + 1}_texte`)}
                 </p>
               </Card>
             ))}
@@ -224,29 +220,25 @@ export default async function Home() {
         <Container>
           <div className="grid items-center gap-10 lg:grid-cols-2">
             <div>
-              <Badge>Déplacements</Badge>
+              <Badge>{t(tx, "accueil.km_badge")}</Badge>
               <h2 className="mt-4 font-serif text-3xl font-medium leading-tight text-cream sm:text-4xl">
-                Des kilomètres clairs, sans surprise
+                {t(tx, "accueil.km_titre")}
               </h2>
               <p className="mt-4 text-[15px] leading-relaxed text-cream/65">
-                Les 15 premiers kilomètres sont inclus dans le prix de la
-                séance. Au-delà, le supplément est de 0,55&nbsp;€ par
-                kilomètre, calculé automatiquement depuis votre adresse lors
-                de la réservation. Vous connaissez le montant exact avant de
-                confirmer.
+                {t(tx, "accueil.km_texte")}
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
                 <ButtonLink href="/massages#zone">
-                  Voir la zone de déplacement
+                  {t(tx, "accueil.km_cta1")}
                 </ButtonLink>
                 <ButtonLink href="/massages" variant="ghost">
-                  Les massages
+                  {t(tx, "accueil.km_cta2")}
                 </ButtonLink>
               </div>
             </div>
             <Card className="p-8">
               <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-bronze">
-                <MapPin size={14} /> Aperçu du supplément
+                <MapPin size={14} /> {t(tx, "accueil.km_apercu")}
               </p>
               <div className="mt-5">
                 <DistancePreview />
@@ -270,9 +262,9 @@ export default async function Home() {
               />
             </div>
             <div className="order-1 lg:order-2">
-              <Badge>Atelier bébé signes</Badge>
+              <Badge>{t(tx, "accueil.lsf_badge")}</Badge>
               <h2 className="mt-4 font-serif text-3xl font-medium leading-tight text-cream sm:text-4xl">
-                Parler avec bébé avant les mots
+                {t(tx, "accueil.lsf_titre")}
               </h2>
               <p className="mt-4 text-[15px] leading-relaxed text-cream/65">
                 L&apos;atelier de langue des signes française pour bébé vous
@@ -282,12 +274,10 @@ export default async function Home() {
               </p>
               <ul className="mt-5 space-y-2 text-sm text-cream/70">
                 <li className="flex items-center gap-2.5">
-                  <Hand size={15} className="text-bronze" /> À domicile, en
-                  collectif ou en visio
+                  <Hand size={15} className="text-bronze" /> {t(tx, "accueil.lsf_l1")}
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <Video size={15} className="text-bronze" /> Supports vidéo
-                  signés et sous-titrés
+                  <Video size={15} className="text-bronze" /> {t(tx, "accueil.lsf_l2")}
                 </li>
               </ul>
               <div className="mt-7">
@@ -325,7 +315,7 @@ export default async function Home() {
           </p>
           <div className="mt-8">
             <ButtonLink href="/contact" variant="ghost">
-              Me contacter
+              {t(tx, "accueil.apropos_cta")}
             </ButtonLink>
           </div>
         </Container>
@@ -343,16 +333,15 @@ export default async function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-forest-deep via-forest-deep/70 to-forest-deep" />
         <Container className="relative flex flex-col items-center text-center">
           <h2 className="max-w-2xl font-serif text-3xl font-medium leading-tight text-cream sm:text-5xl">
-            Prête à vous accorder ce moment&nbsp;?
+            {t(tx, "accueil.cta_final_titre")}
           </h2>
           <p className="mt-5 max-w-lg text-[15px] text-cream/65">
-            Réservez votre consultation ou votre massage en quelques clics — ou
-            écrivez-moi pour en parler.
+            {t(tx, "accueil.cta_final_texte")}
           </p>
           <div className="mt-9 flex flex-col gap-4 sm:flex-row">
-            <ButtonLink href="/reserver">Réserver en ligne</ButtonLink>
+            <ButtonLink href="/reserver">{t(tx, "accueil.cta_final_b1")}</ButtonLink>
             <ButtonLink href="/contact" variant="ghost">
-              Poser une question
+              {t(tx, "accueil.cta_final_b2")}
             </ButtonLink>
           </div>
         </Container>

@@ -6,6 +6,7 @@ import { ChevronDown, Clock } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Baby, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { t } from "@/lib/textes";
 
 /* ---------- Blocs de précautions (textes validés avec la praticienne) ---------- */
 
@@ -142,15 +143,86 @@ const MASSAGES: Massage[] = [
 
 /* ---------- Composant ---------- */
 
-export default function MassageAccordion() {
+export default function MassageAccordion({
+  textes = {},
+}: {
+  textes?: Record<string, string>;
+}) {
   const [openId, setOpenId] = useState<string | null>(null);
+  const x = (cle: string) => t(textes, cle);
+
+  const general = {
+    emoji: "🌿",
+    titre: x("massages.general.titre"),
+    points: [x("massages.general.p1")],
+  };
+  const resp = {
+    emoji: "⚠️",
+    titre: x("massages.resp.titre"),
+    points: [x("massages.resp.p1"), x("massages.resp.p2"), x("massages.resp.p3")],
+  };
+
+  const items = MASSAGES.map((m) => {
+    const prefix =
+      m.id === "prenatal"
+        ? "massages.prenatal"
+        : m.id === "postnatal"
+          ? "massages.postnatal"
+          : m.id === "bebe_forfait"
+            ? "massages.forfait"
+            : "massages.bebe";
+    const precos =
+      m.id === "prenatal"
+        ? {
+            emoji: "🤰",
+            titre: x("massages.prenatal.bloc_titre"),
+            points: [
+              x("massages.prenatal.p1"),
+              x("massages.prenatal.p2"),
+              x("massages.prenatal.p3"),
+            ],
+          }
+        : m.id === "postnatal"
+          ? {
+              emoji: "🤱",
+              titre: x("massages.postnatal.bloc_titre"),
+              points: [
+                x("massages.postnatal.p1"),
+                x("massages.postnatal.p2"),
+                x("massages.postnatal.p3"),
+              ],
+            }
+          : {
+              emoji: "👶",
+              titre: x("massages.bebe.bloc_titre"),
+              points: [
+                x("massages.bebe.p1"),
+                x("massages.bebe.p2"),
+                x("massages.bebe.p3"),
+                x("massages.bebe.p4"),
+              ],
+            };
+    return {
+      ...m,
+      titre: x(`${prefix}.titre`),
+      accroche: x(`${prefix}.accroche`),
+      duree: x(`${prefix}.duree`),
+      description: [
+        x(`${prefix}.d1`),
+        x(`${prefix}.d2`),
+        x(`${prefix}.d3`),
+        x(`${prefix}.d4`),
+      ],
+      precautions: [precos],
+    };
+  });
 
   return (
     <div className="mx-auto mt-12 flex max-w-3xl flex-col gap-4">
-      {MASSAGES.map((m) => {
+      {items.map((m) => {
         const open = openId === m.id;
         const Icon = m.icon;
-        const blocs = [...m.precautions, BLOC_GENERAL, BLOC_RESPONSABILITE];
+        const blocs = [...m.precautions, general, resp];
         return (
           <div
             key={m.id}
@@ -188,8 +260,8 @@ export default function MassageAccordion() {
             {open && (
               <div className="border-t border-bronze/15 px-6 pb-7 pt-5">
                 <p className="inline-flex items-center gap-2 rounded-full border border-bronze/30 px-3 py-1 text-xs font-semibold text-cream/75">
-                  <Clock size={13} className="text-bronze" /> Durée indicative
-                  : {m.duree}
+                  <Clock size={13} className="text-bronze" /> {x("massages.duree_prefixe")}{" "}
+                  {m.duree}
                 </p>
 
                 <div className="mt-4 space-y-3">
@@ -224,7 +296,7 @@ export default function MassageAccordion() {
                   href="/reserver?type=massage"
                   className="mt-6 inline-flex items-center gap-2 rounded-full bg-bronze px-6 py-2.5 text-sm font-semibold text-forest-deep transition-colors hover:bg-glow"
                 >
-                  Réserver ce massage
+                  {x("massages.reserver_ce")}
                 </Link>
               </div>
             )}
@@ -233,8 +305,7 @@ export default function MassageAccordion() {
       })}
 
       <p className="text-center text-xs text-cream/40">
-        Tarifs et durées provisoires — les valeurs définitives seront
-        affichées prochainement.
+        {x("massages.provisoire")}
       </p>
     </div>
   );

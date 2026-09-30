@@ -118,18 +118,18 @@ export default async function AtelierLsfPage() {
         <Container>
           <SectionTitle
             center
-            eyebrow="Pourquoi signer ?"
-            title="Des signes simples, de grands effets"
+            eyebrow={t(tx, "lsf.pourquoi_eyebrow")}
+            title={t(tx, "lsf.pourquoi_titre")}
           />
           <div className="mt-12 grid gap-5 md:grid-cols-3">
-            {bienfaits.map((b) => (
-              <Card key={b.titre}>
+            {["b1", "b2", "b3"].map((k) => (
+              <Card key={k}>
                 <Hand size={22} className="text-bronze" />
                 <h3 className="mt-4 font-serif text-lg text-cream">
-                  {b.titre}
+                  {t(tx, `lsf.${k}_titre`)}
                 </h3>
                 <p className="mt-2 text-[13px] leading-relaxed text-cream/60">
-                  {b.texte}
+                  {t(tx, `lsf.${k}_texte`)}
                 </p>
               </Card>
             ))}
@@ -143,19 +143,19 @@ export default async function AtelierLsfPage() {
         <Container className="relative">
           <SectionTitle
             center
-            eyebrow="Les formats"
-            title="Trois façons de suivre l'atelier"
-            subtitle="Choisissez le format qui convient à votre famille et aux professionnels* de la petite enfance : à domicile, en collectif ou en visio."
+            eyebrow={t(tx, "lsf.formats_eyebrow")}
+            title={t(tx, "lsf.formats_titre")}
+            subtitle={t(tx, "lsf.formats_sous")}
           />
           <div className="mt-12 grid gap-5 md:grid-cols-3">
-            {formats.map((f) => (
-              <Card key={f.titre} className="flex flex-col">
-                <f.icon size={22} className="text-sage" />
+            {[Home, Users, Video].map((Icon, i) => (
+              <Card key={i} className="flex flex-col">
+                <Icon size={22} className="text-sage" />
                 <h3 className="mt-4 font-serif text-xl text-cream">
-                  {f.titre}
+                  {t(tx, `lsf.f${i + 1}_titre`)}
                 </h3>
                 <p className="mt-2 flex-1 text-[13px] leading-relaxed text-cream/60">
-                  {f.texte}
+                  {t(tx, `lsf.f${i + 1}_texte`)}
                 </p>
                 <div className="mt-5 flex items-center gap-2 border-t border-bronze/15 pt-4 text-xs text-cream/60">
                   <Clock size={13} className="text-bronze" /> Durée : 1h
@@ -164,8 +164,7 @@ export default async function AtelierLsfPage() {
             ))}
           </div>
           <p className="mx-auto mt-8 max-w-2xl text-center text-xs leading-relaxed text-cream/50">
-            * Pour les professionnels de la petite enfance, un devis sera
-            envoyé.
+{t(tx, "lsf.formats_note")}
           </p>
 
         </Container>
@@ -176,9 +175,9 @@ export default async function AtelierLsfPage() {
         <Container>
           <SectionTitle
             center
-            eyebrow="Tarifs & formules"
-            title="À l'unité ou en forfait"
-            subtitle="Prix provisoires, à confirmer — chaque formule est valable pour les formats domicile, collectif et visio."
+            eyebrow={t(tx, "lsf.tarifs_eyebrow")}
+            title={t(tx, "lsf.tarifs_titre")}
+            subtitle={t(tx, "lsf.tarifs_sous")}
           />
           <div className="mx-auto mt-12 grid max-w-3xl gap-5 sm:grid-cols-2">
             {formules.map((f) => (

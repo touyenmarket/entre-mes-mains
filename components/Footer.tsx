@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { SITE } from "@/lib/config";
+import { chargerTextes, t } from "@/lib/textes";
 import { ZONE_FRANCHE_KM, TARIF_KM_EUR } from "@/lib/tarification";
 
 const activites = [
@@ -18,7 +19,8 @@ const infos = [
   { href: "/confidentialite", label: "Confidentialité (RGPD)" },
 ];
 
-export default function Footer() {
+export default async function Footer() {
+  const tx = await chargerTextes();
   return (
     <footer className="border-t border-bronze/15 bg-forest-deep">
       <div className="mx-auto grid w-full max-w-6xl gap-10 px-5 py-14 sm:px-8 md:grid-cols-3">
@@ -31,8 +33,7 @@ export default function Footer() {
             className="h-[148px] w-auto drop-shadow-[0_6px_20px_rgba(232,213,163,0.5)]"
           />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-cream/55">
-            {SITE.tagline}. Consultations en visio, massages à domicile pour
-            vous et pour bébé, atelier de langue des signes française.
+            {t(tx, "footer.texte")}
           </p>
           <p className="mt-4 flex items-center gap-2 text-xs text-cream/55">
             <Image
@@ -42,7 +43,7 @@ export default function Footer() {
               height={19}
               className="h-[19px] w-auto shrink-0"
             />
-            Prestations accessibles aux personnes sourdes et malentendantes
+            {t(tx, "footer.access")}
           </p>
           <p className="mt-4 text-xs text-cream/40">
             {SITE.city} · {SITE.region}
@@ -58,7 +59,7 @@ export default function Footer() {
 
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-bronze">
-            Activités — au service de la femme
+            {t(tx, "footer.activites")}
           </p>
           <ul className="mt-4 space-y-2.5">
             {activites.map((l) => (
@@ -76,7 +77,7 @@ export default function Footer() {
 
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-bronze">
-            Informations
+            {t(tx, "footer.infos")}
           </p>
           <ul className="mt-4 space-y-2.5">
             {infos.map((l) => (

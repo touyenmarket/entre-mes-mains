@@ -67,7 +67,7 @@ export default async function MassagesPage() {
               height={34}
               className="h-[34px] w-auto shrink-0 drop-shadow-[0_2px_8px_rgba(232,213,163,0.45)]"
             />
-            Massages accessibles aux personnes sourdes et malentendantes
+            {t(tx, "massages.access")}
           </p>
         </Container>
       </section>
@@ -77,11 +77,11 @@ export default async function MassagesPage() {
         <Container>
           <SectionTitle
             center
-            eyebrow="Les massages"
-            title="Choisissez le moment qui vous correspond"
-            subtitle="Cliquez sur un massage pour découvrir son déroulé, sa durée et les précautions."
+            eyebrow={t(tx, "massages.liste_eyebrow")}
+            title={t(tx, "massages.liste_titre")}
+            subtitle={t(tx, "massages.liste_sous")}
           />
-          <MassageAccordion />
+          <MassageAccordion textes={tx} />
         </Container>
       </section>
 
@@ -91,31 +91,26 @@ export default async function MassagesPage() {
         <Container className="relative">
           <div className="grid items-center gap-10 lg:grid-cols-2">
             <div>
-              <Badge>Zone de déplacement</Badge>
+              <Badge>{t(tx, "massages.zone_badge")}</Badge>
               <h2 className="mt-4 font-serif text-3xl font-medium leading-tight text-cream sm:text-4xl">
-                Un supplément kilométrique transparent
+                {t(tx, "massages.zone_titre")}
               </h2>
               <p className="mt-4 text-[15px] leading-relaxed text-cream/65">
-                Les {ZONE_FRANCHE_KM} premiers kilomètres sont inclus dans le
-                prix de la séance. Au-delà, comptez 0,55&nbsp;€ par kilomètre
-                parcouru — par exemple, 30&nbsp;km correspondent à un
-                supplément de 8,25&nbsp;€.
+                {t(tx, "massages.zone_texte1")}
               </p>
               <p className="mt-3 text-[15px] leading-relaxed text-cream/65">
-                Lors de la réservation, le supplément est calculé
-                automatiquement depuis votre adresse exacte : vous validez en
-                toute connaissance du montant final.
+                {t(tx, "massages.zone_texte2")}
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
-                <ButtonLink href="/reserver?type=massage">Réserver un massage</ButtonLink>
+                <ButtonLink href="/reserver?type=massage">{t(tx, "massages.cta")}</ButtonLink>
                 <ButtonLink href="/contact" variant="ghost">
-                  Une question sur la zone ?
+                  {t(tx, "massages.zone_cta2")}
                 </ButtonLink>
               </div>
             </div>
             <Card className="p-8">
               <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-bronze">
-                <MapPin size={14} /> Estimer le supplément
+                <MapPin size={14} /> {t(tx, "massages.zone_apercu")}
               </p>
               <div className="mt-5">
                 <DistancePreview />
@@ -134,14 +129,14 @@ export default async function MassagesPage() {
             title="Une séance clé en main"
           />
           <div className="mt-12 grid gap-5 md:grid-cols-3">
-            {pratique.map((p) => (
-              <Card key={p.titre}>
-                <p.icon size={22} className="text-bronze" />
+            {[1, 2, 3].map((n) => (
+              <Card key={n}>
+                {n === 1 ? <Armchair size={22} className="text-bronze" /> : n === 2 ? <Sun size={22} className="text-bronze" /> : <Music size={22} className="text-bronze" />}
                 <h3 className="mt-4 font-serif text-lg text-cream">
-                  {p.titre}
+                  {t(tx, `massages.pratique${n}_titre`)}
                 </h3>
                 <p className="mt-2 text-[13px] leading-relaxed text-cream/60">
-                  {p.texte}
+                  {t(tx, `massages.pratique${n}_texte`)}
                 </p>
               </Card>
             ))}
