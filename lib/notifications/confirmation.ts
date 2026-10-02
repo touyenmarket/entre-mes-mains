@@ -137,5 +137,21 @@ export async function finaliserApresPaiement(reservationId: string) {
     });
   }
 
+  if (visio && SITE.email) {
+    await envoyerEmail({
+      to: SITE.email,
+      subject: `Visio ${reservation.numero} — ${quand}`,
+      text: [
+        `Rendez-vous visio confirmé.`,
+        `${pre?.label || ""} — ${quand}`,
+        `Cliente : ${dest?.prenom || ""} ${dest?.nom || ""} ${dest?.email || ""}`,
+        `Lien (le même que la cliente) : ${visio}`,
+        "",
+        "Agenda : /admin/agenda",
+      ].join("\n"),
+      html: `<p>Rendez-vous visio confirmé.</p><p><strong>${pre?.label || ""}</strong><br/>${quand}<br/>${dest?.prenom || ""} ${dest?.nom || ""} — ${dest?.email || ""}</p><p><a href="${visio}">Rejoindre la visio</a></p>`,
+    });
+  }
+
   return { visio, facture };
 }

@@ -37,6 +37,7 @@ export default async function AdminPage() {
       <Badge>Back-office</Badge>
       <h1 className="mt-5 font-serif text-4xl text-cream">Calendrier</h1>
       <div className="mt-4 flex flex-wrap gap-3">
+        <ButtonLink href="/admin/agenda">Agenda des rendez-vous</ButtonLink>
         <ButtonLink href="/admin/documents" variant="ghost">
           Devis & factures
         </ButtonLink>
